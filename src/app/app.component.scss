@@ -1,0 +1,18 @@
+ngx-dropzone {
+  margin: 20px;
+}
+
+.custom-dropzone {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  border: 8px double #518;
+  border-radius: 10px;
+
+  &.hovered {
+    border: 8px double #954;
+    background: #FF4;
+    font-size: 20px;
+  }
+}

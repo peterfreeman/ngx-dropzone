@@ -1,0 +1,10 @@
+<input type="file" #fileInput class="file-input" (change)="onFilesSelected($event)" [multiple]="multiple" [accept]="accept" />
+<div #dropzone class="dropzone" [class.disabled]="disabled" (click)="showFileSelector()" (dragover)="onDragover($event)"
+  (dragleave)="onDragleave()" (drop)="onDrop($event)">
+  <ng-container *ngTemplateOutlet="customContent ? customContent: defaultDz"></ng-container>
+  <ng-template #defaultDz>
+    <div class="dropzone-inner">
+      <p>{{ label }}</p>
+    </div>
+  </ng-template>
+</div>

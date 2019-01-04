@@ -1,0 +1,30 @@
+{
+  "name": "ngx-dropzone",
+  "description": "A highly configurable dropzone component for Angular.",
+  "version": "1.0.1",
+  "author": "Peter Freeman",
+  "keywords": [
+    "angular",
+    "angular 2",
+    "ngx",
+    "drag",
+    "drop",
+    "dropzone",
+    "ngx-dropzone",
+    "file",
+    "upload",
+    "image"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/peterfreeman/ngx-dropzone",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peterfreeman/ngx-dropzone.git"
+  },
+  "bugs": {
+    "url": "https://github.com/peterfreeman/ngx-dropzone/issues"
+  },
+  "scripts": {
+    "release": "npm version patch && npm publish"
+  }
+}

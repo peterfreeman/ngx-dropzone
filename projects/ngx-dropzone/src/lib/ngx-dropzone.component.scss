@@ -1,0 +1,48 @@
+$dz-bg: #fff;
+$dz-border: #717386;
+$dz-text-hover: lighten($color: $dz-border, $amount: 40);
+$dz-border-width: 4px;
+
+:host {
+	display: block;
+}
+
+.file-input {
+	display: none;
+}
+
+.dropzone {
+	z-index: 10;
+	cursor: pointer;
+
+	&.disabled {
+		opacity: 0.5;
+		cursor: no-drop;
+	}
+}
+
+.dropzone-inner {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 180px;
+	background: $dz-bg;
+	color: $dz-border;
+	border: $dz-border-width dashed $dz-border;
+	border-radius: 5px;
+	font-size: 16px;
+
+	&.hovered {
+		border: $dz-border-width solid $dz-border;
+		color: $dz-text-hover;
+	}
+
+	@media (min-width: 700px) {
+		font-size: 24px;
+	}
+
+	> p {
+		margin: 10px 0px;
+	}
+}
