@@ -1,6 +1,10 @@
-# NGX DROPZONE
+# ngx- dropzone
 
 A highly customizable Angular dropzone component to catch file uploads.
+
+<img src="https://i.ibb.co/Zd3rJrz/Bildschirmfoto-2019-01-04-um-13-48-35.png">
+
+<img src="https://i.ibb.co/c3YwHgX/Bildschirmfoto-2019-01-04-um-13-49-00.png">
 
 ## Install
 
@@ -13,6 +17,7 @@ $ npm install --save ngx-dropzone
 Import the module
 
 ```js
+// in app.module.ts
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
@@ -33,48 +38,45 @@ export class AppModule { }
 ```
 
 ```html
+<!-- in app.component.html -->
 <ngx-dropzone></ngx-dropzone>
 ```
 
-<img src="https://i.ibb.co/Zd3rJrz/Bildschirmfoto-2019-01-04-um-13-48-35.png" width="700px">
-
-<img src="https://i.ibb.co/c3YwHgX/Bildschirmfoto-2019-01-04-um-13-49-00.png" width="700px">
-
 ## Options
 
-Use the `[multiple]` input binding to accept more than one dropped file.
-The default is `true`.
+| Property |   Type  | Description | Default  |
+|--------------|-------|------------------------------------------------|---------|
+| `[multiple]` | `boolean` | Allow drop or selection of more than one file. | `true` |
+| `[label]`    | `string`  | Change the label text.   | `'Drop your files here (or click)'` |
+| `[accept]`    | `string`  | Specify the accepted file types.   | `'*'` |
+| `[maxFileSize]`    | `number`  | Set the maximum file size in bytes.   | `undefined` |
+| `[disabled]`    | `boolean`  | Disable any drop or click interaction.   | `false` |
+
+### Examples
 
 ```html
 <ngx-dropzone [multiple]="false"></ngx-dropzone>
 ```
 
-Use the `[label]` input binding to change the label text.\
-The default is `'Drop your files here (or click)'`.
-
 ```html
 <ngx-dropzone [label]="'This is a custom label text'"></ngx-dropzone>
 ```
-
-Use the `[accept]` input binding to specify the accepted file types. The value is forwarded to the native input binding. The default is `'*'`.
 
 ```html
 <ngx-dropzone [accept]="'image/png,image/jpeg'"></ngx-dropzone>
 ```
 
-Use the `[maxFileSize]` input binding to set the maximum file size in bytes. The default is `undefined`.
-
 ```html
 <ngx-dropzone [maxFileSize]="2000"></ngx-dropzone>
 ```
-
-Use the `[disabled]` input binding to disable any drop or click interaction. The default is `false`.
 
 ```html
 <ngx-dropzone [disabled]="true"></ngx-dropzone>
 ```
 
-<img src="https://i.ibb.co/5h5t4Hw/Bildschirmfoto-2019-01-04-um-13-49-24.png" width="700px">
+<img src="https://i.ibb.co/5h5t4Hw/Bildschirmfoto-2019-01-04-um-13-49-24.png">
+
+### File selection event
 
 Use the `(filesDropped)` output event to catch a file selection or drop.\
 It returns a `File[]` of the dropped files that match the filters like file type and maximum size.
@@ -86,8 +88,8 @@ It returns a `File[]` of the dropped files that match the filters like file type
 
 ```js
 // in app.component.ts
-onFilesDropped(event: File[]): void {
-  console.log(event);
+onFilesDropped(files: File[]): void {
+  console.log(files);
 }
 ```
 
@@ -124,12 +126,12 @@ See the following example on how to do it and provide custom styles.
 }
 ```
 
-<img src="https://i.ibb.co/N3VCtTb/Bildschirmfoto-2019-01-04-um-13-49-45.png" width="700px">
+<img src="https://i.ibb.co/N3VCtTb/Bildschirmfoto-2019-01-04-um-13-49-45.png">
 
-<img src="https://i.ibb.co/XjGFQmB/Bildschirmfoto-2019-01-04-um-13-49-56.png" width="700px">
+<img src="https://i.ibb.co/XjGFQmB/Bildschirmfoto-2019-01-04-um-13-49-56.png">
 
 
-Use can use the same properties like for the default styling.
+You can use the same properties like for the default styling.
 
 ```html
 <ngx-dropzone [customContent]="customDropzone" [disabled]="true">
@@ -141,7 +143,7 @@ Use can use the same properties like for the default styling.
 </ngx-dropzone>
 ```
 
-<img src="https://i.ibb.co/FBf27g2/Bildschirmfoto-2019-01-04-um-13-50-08.png" width="700px">
+<img src="https://i.ibb.co/FBf27g2/Bildschirmfoto-2019-01-04-um-13-50-08.png">
 
 
 ## Licence

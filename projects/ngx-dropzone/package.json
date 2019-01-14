@@ -23,8 +23,5 @@
   },
   "bugs": {
     "url": "https://github.com/peterfreeman/ngx-dropzone/issues"
-  },
-  "scripts": {
-    "release": "npm version patch && npm publish"
   }
 }
