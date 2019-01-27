@@ -18,7 +18,7 @@ export class NgxDropzoneComponent {
   @ViewChild('fileInput') fileInput: ElementRef;
   @ViewChild('dropzone') dropzone: ElementRef;
 
-  onFilesSelected(event): void {
+  onFilesSelected(event) {
     const files: FileList = event.target.files;
     this.onFileDrop(files);
   }
@@ -48,33 +48,41 @@ export class NgxDropzoneComponent {
     this.onFileDrop(event.dataTransfer.files);
   }
 
-  private preventDefault(event: any): void {
+  private preventDefault(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
   }
 
-  private onFileDrop(files: FileList): void {
+  private onFileDrop(files: FileList) {
+
     if (this.disabled) {
       return;
     }
 
-    let exportFiles = this.toFileArray(files);
+    /**
+     * UPDATE 27.01.2019:
+     * Refactored the filter algorithm into one filter() method to gain
+     * better performance by iterating only once.
+     * See issue #1.
+     */
+    let exportFiles: File[] = [];
 
-    if (this.accept !== '*') {
-      exportFiles = exportFiles.filter(file => {
-        return this.accept.includes(file.type);
+    if (this.multiple) {
+      const hasFiletypeFilter = this.accept !== '*';
+
+      exportFiles = this.toFileArray(files).filter(file => {
+        if (hasFiletypeFilter && !this.accept.includes(file.type)) {
+          return false;
+        }
+
+        if (this.maxFileSize && file.size > this.maxFileSize) {
+          return false;
+        }
+
+        return true;
       });
-    }
-
-    if (this.maxFileSize) {
-      exportFiles = exportFiles.filter(file => {
-        return file.size <= this.maxFileSize;
-      });
-    }
-
-    if (!this.multiple && exportFiles.length > 1) {
-      exportFiles = [];
-      exportFiles.push(files[0]);
+    } else {
+      exportFiles.push(files.item(0));
     }
 
     this.toggleHovered(false);
