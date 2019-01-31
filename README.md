@@ -2,6 +2,8 @@
 
 A highly customizable Angular dropzone component to catch file uploads.
 
+[![NPM](https://img.shields.io/npm/v/ngx-dropzone.svg)](https://www.npmjs.com/package/ngx-dropzone) [![Build Status](https://travis-ci.com/peterfreeman/ngx-dropzone.svg?branch=master)](https://travis-ci.com/peterfreeman/ngx-dropzone)
+
 <img src="https://i.ibb.co/Zd3rJrz/Bildschirmfoto-2019-01-04-um-13-48-35.png">
 
 <img src="https://i.ibb.co/c3YwHgX/Bildschirmfoto-2019-01-04-um-13-49-00.png">
