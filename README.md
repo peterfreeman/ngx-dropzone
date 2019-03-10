@@ -166,6 +166,13 @@ ngx-dropzone {
 You can still use the same properties like for the default styling.
 
 ```html
+<!-- in app.component.html -->
+<ngx-dropzone class="custom-dropzone" [showImagePreviews]="true"></ngx-dropzone>
+```
+
+<img src="_images/custom_preview.png">
+
+```html
 <ngx-dropzone class="custom-dropzone" [disabled]="true"></ngx-dropzone>
 ```
 
