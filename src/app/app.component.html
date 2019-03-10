@@ -3,38 +3,23 @@ Default
 Disabled
 <ngx-dropzone [disabled]="true"></ngx-dropzone>
 With event listener
-<ngx-dropzone (filesDropped)="onFilesDropped($event)"></ngx-dropzone>
+<ngx-dropzone (filesAdded)="onFilesAdded($event)"></ngx-dropzone>
 Multiple disabled
-<ngx-dropzone [multiple]="false" (filesDropped)="onFilesDropped($event)"></ngx-dropzone>
+<ngx-dropzone [multiple]="false" (filesAdded)="onFilesAdded($event)"></ngx-dropzone>
 Label
 <ngx-dropzone [label]="'This is a custom label text'"></ngx-dropzone>
 Accepts "image/png,image/jpeg"
-<ngx-dropzone [accept]="'image/png,image/jpeg'" (filesDropped)="onFilesDropped($event)"></ngx-dropzone>
+<ngx-dropzone [accept]="'image/png,image/jpeg'" (filesAdded)="onFilesAdded($event)"></ngx-dropzone>
+Shows previews
+<ngx-dropzone [showImagePreviews]="true"></ngx-dropzone>
 Max File size 2kb
-<ngx-dropzone [maxFileSize]="2000" (filesDropped)="onFilesDropped($event)"></ngx-dropzone>
-Custom ngContainer
-<ngx-dropzone [customContent]="customDropzone" (filesDropped)="onFilesDropped($event)">
-  <ng-template #customDropzone>
-    <div class="custom-dropzone">
-      This is my custom content
-    </div>
-  </ng-template>
-</ngx-dropzone>
+<ngx-dropzone [maxFileSize]="2000" (filesAdded)="onFilesAdded($event)"></ngx-dropzone>
 
-Custom ngContainer disabled
-<ngx-dropzone [customContent]="customDropzone" [disabled]="true" (filesDropped)="onFilesDropped($event)">
-  <ng-template #customDropzone>
-    <div class="custom-dropzone">
-      This is my custom content
-    </div>
-  </ng-template>
-</ngx-dropzone>
+Custom styling
+<ngx-dropzone class="custom-dropzone" label="Drop it!" (filesAdded)="onFilesAdded($event)"></ngx-dropzone>
 
-Custom ngContainer no multiple
-<ngx-dropzone [customContent]="customDropzone" [multiple]="false" (filesDropped)="onFilesDropped($event)">
-  <ng-template #customDropzone>
-    <div class="custom-dropzone">
-      This is my custom content
-    </div>
-  </ng-template>
-</ngx-dropzone>
+Custom styling disabled
+<ngx-dropzone class="custom-dropzone" [disabled]="true" (filesAdded)="onFilesAdded($event)"></ngx-dropzone>
+
+Custom styling with preview
+<ngx-dropzone class="custom-dropzone" [showImagePreviews]="true" (filesAdded)="onFilesAdded($event)"></ngx-dropzone>

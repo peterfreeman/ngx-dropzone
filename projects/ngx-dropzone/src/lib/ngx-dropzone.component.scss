@@ -1,32 +1,12 @@
 $dz-bg: #fff;
 $dz-border: #717386;
 $dz-text-hover: lighten($color: $dz-border, $amount: 40);
-$dz-border-width: 4px;
+$dz-border-width: 2px;
 
-:host {
-	display: block;
-}
-
-.file-input {
-	display: none;
-}
-
-.dropzone {
-	z-index: 10;
-	cursor: pointer;
-
-	&.disabled {
-		opacity: 0.5;
-		cursor: no-drop;
-	}
-}
-
-.dropzone-inner {
+:host() {
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
 	height: 180px;
+	cursor: pointer;
 	background: $dz-bg;
 	color: $dz-border;
 	border: $dz-border-width dashed $dz-border;
@@ -38,11 +18,46 @@ $dz-border-width: 4px;
 		color: $dz-text-hover;
 	}
 
-	@media (min-width: 700px) {
-		font-size: 24px;
+	&.disabled {
+		opacity: 0.5;
+		cursor: no-drop;
 	}
 
-	> p {
-		margin: 10px 0px;
+	> .dropzone {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		width: 100%;
+		overflow-x: auto;
+
+		> p {
+			margin: 10px auto;
+		}
+
+		> .image-preview {
+			height: 80%;
+			position: relative;
+			text-align: center;
+			padding: 0 10px;
+
+			> img {
+				max-height: 100%;
+				border-radius: 5px;
+				opacity: 0.8;
+			}
+
+			> span {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				color: white;
+			}
+		}
 	}
+}
+
+.file-input {
+	display: none;
 }

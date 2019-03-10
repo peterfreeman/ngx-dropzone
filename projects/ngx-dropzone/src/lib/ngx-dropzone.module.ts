@@ -6,7 +6,11 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule
   ],
-  declarations: [NgxDropzoneComponent],
-  exports: [NgxDropzoneComponent]
+  declarations: [
+    NgxDropzoneComponent
+  ],
+  exports: [
+    NgxDropzoneComponent
+  ]
 })
 export class NgxDropzoneModule { }
