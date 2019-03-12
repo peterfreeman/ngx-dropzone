@@ -8,11 +8,6 @@ A lightweight and highly customizable Angular dropzone component to catch file u
 
 <img src="_images/default_hovered.png">
 
-**IMPORTANT UPDATE:**\
-With the latest version the output event was renamed to `(filesAdded)`.\
-I changed the way to apply your custom styling to the component, see [Custom style component](#custom-style-component).\
-You can now use the option `[showImagePreviews]` to enable a live preview of the users images.
-
 ## Install
 
 ```
@@ -53,12 +48,18 @@ export class AppModule { }
 
 | Property |   Type  | Description | Default  |
 |--------------|-------|------------------------------------------------|---------|
-| `[multiple]` | `boolean` | Allow drop or selection of more than one file. | `true` |
 | `[label]`    | `string`  | Change the label text.   | `'Drop your files here (or click)'` |
+| `[multiple]` | `boolean` | Allow drop or selection of more than one file. | `true` |
 | `[accept]`    | `string`  | Specify the accepted file types.   | `'*'` |
 | `[maxFileSize]`    | `number`  | Set the maximum file size in bytes.   | `undefined` |
 | `[showImagePreviews]`    | `boolean`  | Show image previews in the dropzone.   | `false` |
+| `[preserveFiles]`    | `boolean`  | Preserve all selected files since the last reset.   | `true` |
 | `[disabled]`    | `boolean`  | Disable any drop or click interaction.   | `false` |
+
+| Method |  Description | Return value  |
+|--------------|-----------------------------------------------|---------|
+| `showFileSelector()`    | Opens up the file selector dialog.   | `void` |
+| `reset()`    | Resets all selected files.   | `void` |
 
 ### Examples
 
@@ -79,7 +80,13 @@ export class AppModule { }
 ```
 
 ```html
-<ngx-dropzone [showImagePreviews]="true"></ngx-dropzone>
+<ngx-dropzone [showImagePreviews]="true" [preserveFiles]="false"></ngx-dropzone>
+```
+
+```html
+<ngx-dropzone [showImagePreviews]="true" #dropzone></ngx-dropzone>
+<button (click)="dropzone.reset()">Reset</button>
+<button (click)="dropzone.showFileSelector()">Show file selector</button>
 ```
 
 ```html

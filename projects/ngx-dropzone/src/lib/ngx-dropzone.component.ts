@@ -24,25 +24,33 @@ export class NgxDropzoneComponent {
   ) { }
 
   @HostBinding('class.disabled') @Input() disabled = false;
+  @HostBinding('class.hovered') hovered = false;
   @Input() multiple = true;
   @Input() label = 'Drop your files here (or click)';
   @Input() accept = '*';
   @Input() maxFileSize: number;
   @Input() showImagePreviews = false;
+  @Input() preserveFiles = true;
   @Output() filesAdded = new EventEmitter<File[]>();
 
-  @ViewChild('fileInput') fileInput: ElementRef;
+  @ViewChild('fileInput') private fileInput: ElementRef;
+  private fileCache: File[] = [];
   previewImages: PreviewImage[] = [];
-
-  onFilesSelected(event) {
-    const files: FileList = event.target.files;
-    this.onFileDrop(files);
-  }
 
   showFileSelector() {
     if (!this.disabled) {
       this.fileInput.nativeElement.click();
     }
+  }
+
+  reset() {
+    this.fileCache = [];
+    this.previewImages = [];
+  }
+
+  onFilesSelected(event) {
+    const files: FileList = event.target.files;
+    this.onFileDrop(files);
   }
 
   /**
@@ -58,12 +66,12 @@ export class NgxDropzoneComponent {
       return;
     }
 
-    this.toggleHovered(true);
+    this.hovered = true;
   }
 
   @HostListener('dragleave', ['$event'])
   onDragLeave(event) {
-    this.toggleHovered(false);
+    this.hovered = false;
   }
 
   @HostListener('drop', ['$event'])
@@ -93,10 +101,21 @@ export class NgxDropzoneComponent {
      * Refactored to one single loop and fixed bug where disabled multiple
      * selection might return invalid (unfiltered) files.
      * Added image preview option.
+     *
+     * UPDATE 12.03.2019:
+     * Refactored to use fileCache and emit all dropped files
+     * since the last reset if [preserveFiles] is true.
      */
-    const exportFiles: File[] = [];
     const hasFiletypeFilter = this.accept !== '*';
-    this.previewImages = [];
+
+    /**
+     * UPDATE 12.03.2019:
+     * Added option to preserve preview images.
+     */
+    if (!this.preserveFiles) {
+      this.fileCache = [];
+      this.previewImages = [];
+    }
 
     for (let i = 0; i < files.length; i++) {
       const file = files.item(i);
@@ -109,8 +128,13 @@ export class NgxDropzoneComponent {
         continue;
       }
 
-      if (!this.multiple && exportFiles.length >= 1) {
-        continue;
+      if (!this.multiple && this.fileCache.length >= 1) {
+        if (!this.preserveFiles) {
+          // Always emit the latest file if multiple and preservation are disabled.
+          this.fileCache = [file];
+        } else {
+          continue;
+        }
       }
 
       if (this.showImagePreviews) {
@@ -129,19 +153,10 @@ export class NgxDropzoneComponent {
         reader.readAsDataURL(file);
       }
 
-      exportFiles.push(file);
+      this.fileCache.push(file);
     }
 
-    this.toggleHovered(false);
-    this.filesAdded.next(exportFiles);
-  }
-
-  private toggleHovered(isHovered: boolean) {
-    const el = this.host.nativeElement as HTMLElement;
-    if (isHovered) {
-      el.classList.add('hovered');
-    } else {
-      el.classList.remove('hovered');
-    }
+    this.hovered = false;
+    this.filesAdded.next(this.fileCache);
   }
 }

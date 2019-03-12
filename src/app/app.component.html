@@ -11,7 +11,10 @@ Label
 Accepts "image/png,image/jpeg"
 <ngx-dropzone [accept]="'image/png,image/jpeg'" (filesAdded)="onFilesAdded($event)"></ngx-dropzone>
 Shows previews
-<ngx-dropzone [showImagePreviews]="true"></ngx-dropzone>
+<button (click)="drop.reset()">Reset</button>
+<ngx-dropzone [showImagePreviews]="true" (filesAdded)="onFilesAdded($event)" #drop></ngx-dropzone>
+Shows previews without preserving
+<ngx-dropzone [showImagePreviews]="true" [preserveFiles]="false" (filesAdded)="onFilesAdded($event)"></ngx-dropzone>
 Max File size 2kb
 <ngx-dropzone [maxFileSize]="2000" (filesAdded)="onFilesAdded($event)"></ngx-dropzone>
 

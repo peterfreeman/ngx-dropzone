@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "release": "ng build ngx-dropzone && cd dist/ngx-dropzone && npm version patch && npm publish"
+    "release": "cd projects/ngx-dropzone && npm version patch && cd ../.. && ng build ngx-dropzone && cd dist/ngx-dropzone && npm publish"
   },
   "private": true,
   "dependencies": {
