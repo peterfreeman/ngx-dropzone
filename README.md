@@ -193,8 +193,3 @@ You can still use the same properties like for the default styling.
 ## Licence
 
 MIT © Peter Freeman
-
-
-* Fixed preview display bug after Chrome update.
-* Added service and unit tests
-* Can now preview all files, changed API (removed 'Image')
