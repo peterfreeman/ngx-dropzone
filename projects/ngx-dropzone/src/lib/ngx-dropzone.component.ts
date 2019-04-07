@@ -56,7 +56,7 @@ export class NgxDropzoneComponent {
    * for easier style overwriting from outside the component.
    */
   @HostListener('dragover', ['$event'])
-  private onDragOver(event) {
+  onDragOver(event) {
     if (this.disabled) {
       return;
     }
@@ -66,12 +66,12 @@ export class NgxDropzoneComponent {
   }
 
   @HostListener('dragleave', ['$event'])
-  private onDragLeave(event) {
+  onDragLeave(event) {
     this.hovered = false;
   }
 
   @HostListener('drop', ['$event'])
-  private onDrop(event) {
+  onDrop(event) {
     this.preventDefault(event);
     this.hovered = false;
     this.handleFileDrop(event.dataTransfer.files);
