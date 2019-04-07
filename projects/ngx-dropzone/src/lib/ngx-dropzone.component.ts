@@ -6,36 +6,34 @@ import {
   HostListener,
   HostBinding
 } from '@angular/core';
-
-export interface PreviewImage {
-  data: string;
-  filename: string;
-}
+import { NgxDropzoneService, FilePreview } from './ngx-dropzone.service';
 
 @Component({
   selector: 'ngx-dropzone',
   templateUrl: './ngx-dropzone.component.html',
-  styleUrls: ['./ngx-dropzone.component.scss']
+  styleUrls: ['./ngx-dropzone.component.scss'],
+  providers: [NgxDropzoneService] // Create a new service instance for each component.
 })
 export class NgxDropzoneComponent {
 
   constructor(
-    private host: ElementRef
+    private host: ElementRef,
+    public service: NgxDropzoneService
   ) { }
+
+  @Input() label = 'Drop your files here (or click)';
+  @Input() multiple = true;
+  @Input() accept = '*';
+  @Input() maxFileSize: number;
+  @Input() showPreviews = false;
+  @Input() preserveFiles = true;
+
+  @Output() filesAdded = new EventEmitter<File[]>();
 
   @HostBinding('class.disabled') @Input() disabled = false;
   @HostBinding('class.hovered') hovered = false;
-  @Input() multiple = true;
-  @Input() label = 'Drop your files here (or click)';
-  @Input() accept = '*';
-  @Input() maxFileSize: number;
-  @Input() showImagePreviews = false;
-  @Input() preserveFiles = true;
-  @Output() filesAdded = new EventEmitter<File[]>();
 
   @ViewChild('fileInput') private fileInput: ElementRef;
-  private fileCache: File[] = [];
-  previewImages: PreviewImage[] = [];
 
   showFileSelector() {
     if (!this.disabled) {
@@ -44,13 +42,12 @@ export class NgxDropzoneComponent {
   }
 
   reset() {
-    this.fileCache = [];
-    this.previewImages = [];
+    this.service.reset();
   }
 
   onFilesSelected(event) {
     const files: FileList = event.target.files;
-    this.onFileDrop(files);
+    this.handleFileDrop(files);
   }
 
   /**
@@ -59,104 +56,39 @@ export class NgxDropzoneComponent {
    * for easier style overwriting from outside the component.
    */
   @HostListener('dragover', ['$event'])
-  onDragOver(event) {
-    this.preventDefault(event);
-
+  private onDragOver(event) {
     if (this.disabled) {
       return;
     }
 
+    this.preventDefault(event);
     this.hovered = true;
   }
 
   @HostListener('dragleave', ['$event'])
-  onDragLeave(event) {
+  private onDragLeave(event) {
     this.hovered = false;
   }
 
   @HostListener('drop', ['$event'])
-  onDrop(event) {
+  private onDrop(event) {
     this.preventDefault(event);
-    this.onFileDrop(event.dataTransfer.files);
+    this.hovered = false;
+    this.handleFileDrop(event.dataTransfer.files);
+  }
+
+  private handleFileDrop(files: FileList) {
+    if (this.disabled) {
+      return;
+    }
+
+    this.service.parseFileList(files, this.accept, this.maxFileSize,
+      this.multiple, this.preserveFiles, this.showPreviews)
+      .then(parsedFiles => this.filesAdded.next(parsedFiles));
   }
 
   private preventDefault(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
-  }
-
-  private onFileDrop(files: FileList) {
-
-    if (this.disabled) {
-      return;
-    }
-
-    /**
-     * UPDATE 27.01.2019:
-     * Refactored the filter algorithm into one filter() method to gain
-     * better performance by iterating only once.
-     * See issue #1.
-     *
-     * UPDATE 09.03.2019:
-     * Refactored to one single loop and fixed bug where disabled multiple
-     * selection might return invalid (unfiltered) files.
-     * Added image preview option.
-     *
-     * UPDATE 12.03.2019:
-     * Refactored to use fileCache and emit all dropped files
-     * since the last reset if [preserveFiles] is true.
-     */
-    const hasFiletypeFilter = this.accept !== '*';
-
-    /**
-     * UPDATE 12.03.2019:
-     * Added option to preserve preview images.
-     */
-    if (!this.preserveFiles) {
-      this.fileCache = [];
-      this.previewImages = [];
-    }
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files.item(i);
-
-      if (hasFiletypeFilter && !this.accept.includes(file.type)) {
-        continue;
-      }
-
-      if (this.maxFileSize && file.size > this.maxFileSize) {
-        continue;
-      }
-
-      if (!this.multiple && this.fileCache.length >= 1) {
-        if (!this.preserveFiles) {
-          // Always emit the latest file if multiple and preservation are disabled.
-          this.fileCache = [file];
-        } else {
-          continue;
-        }
-      }
-
-      if (this.showImagePreviews) {
-        if (!file.type.includes('image')) {
-          continue;
-        }
-
-        const reader = new FileReader();
-        reader.onload = e => {
-          this.previewImages.push({
-            data: (e.target as FileReader).result,
-            filename: file.name
-          });
-        };
-
-        reader.readAsDataURL(file);
-      }
-
-      this.fileCache.push(file);
-    }
-
-    this.hovered = false;
-    this.filesAdded.next(this.fileCache);
   }
 }

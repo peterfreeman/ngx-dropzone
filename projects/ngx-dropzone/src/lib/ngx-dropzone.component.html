@@ -1,9 +1,12 @@
 <input type="file" #fileInput class="file-input" (change)="onFilesSelected($event)" [multiple]="multiple"
   [accept]="accept" />
 <div class="dropzone" (click)="showFileSelector()">
-  <p *ngIf="previewImages.length === 0">{{ label }}</p>
-  <div class="image-preview" *ngFor="let img of previewImages">
-    <img [src]="img.data">
-    <span>{{ img.filename }}</span>
+  <p *ngIf="service.previews.length === 0">{{ label }}</p>
+  <div class="preview" [class.limit-width]="!p.data" *ngFor="let p of service.previews">
+    <img *ngIf="p.data" [src]="p.data">
+    <span *ngIf="p.data">{{ p.filename }}</span>
+    <div *ngIf="!p.data" class="preview-item">
+      <span>{{ p.filename }}</span>
+    </div>
   </div>
 </div>

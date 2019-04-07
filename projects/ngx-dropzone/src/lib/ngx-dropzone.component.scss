@@ -35,11 +35,16 @@ $dz-border-width: 2px;
 			margin: 10px auto;
 		}
 
-		> .image-preview {
+		> .preview {
 			height: 80%;
 			position: relative;
 			text-align: center;
 			padding: 0 10px;
+			width: max-content;
+
+			&.limit-width {
+				max-width: 25%;
+			}
 
 			> img {
 				max-height: 100%;
@@ -53,6 +58,22 @@ $dz-border-width: 2px;
 				left: 50%;
 				transform: translate(-50%, -50%);
 				color: white;
+			}
+
+			> .preview-item {
+				display: flex;
+				text-align: center;
+				align-items: center;
+				height: 100%;
+				padding: 0 40px;
+				overflow-wrap: break-word;
+				border-radius: 5px;
+				background-image: linear-gradient(to top, #ededed, #efefef, #f1f1f1, #f4f4f4, #f6f6f6);
+
+				> span {
+					color: $dz-border;
+					max-width: 100%;
+				}
 			}
 		}
 	}
