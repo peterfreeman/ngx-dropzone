@@ -9,4 +9,3 @@ branches:
 
 script:
   - ng build --prod
-  - ng test
