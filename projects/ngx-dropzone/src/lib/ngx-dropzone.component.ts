@@ -7,6 +7,7 @@ import {
   HostBinding
 } from '@angular/core';
 import { NgxDropzoneService, FilePreview } from './ngx-dropzone.service';
+import { resolve } from 'url';
 
 @Component({
   selector: 'ngx-dropzone',
@@ -47,7 +48,10 @@ export class NgxDropzoneComponent {
 
   onFilesSelected(event) {
     const files: FileList = event.target.files;
-    this.handleFileDrop(files);
+    this.handleFileDrop(files).then(() => {
+      // Reset the file input value to trigger the event on new selection.
+      (this.fileInput.nativeElement as HTMLInputElement).value = null;
+    });
   }
 
   /**
@@ -77,14 +81,19 @@ export class NgxDropzoneComponent {
     this.handleFileDrop(event.dataTransfer.files);
   }
 
-  private handleFileDrop(files: FileList) {
-    if (this.disabled) {
-      return;
-    }
+  private async handleFileDrop(files: FileList): Promise<void> {
+    return new Promise<void>(resolve => {
+      if (this.disabled) {
+        return;
+      }
 
-    this.service.parseFileList(files, this.accept, this.maxFileSize,
-      this.multiple, this.preserveFiles, this.showPreviews)
-      .then(parsedFiles => this.filesAdded.next(parsedFiles));
+      this.service.parseFileList(files, this.accept, this.maxFileSize,
+        this.multiple, this.preserveFiles, this.showPreviews)
+        .then(parsedFiles => {
+          this.filesAdded.next(parsedFiles);
+          resolve();
+        });
+    });
   }
 
   private preventDefault(event: DragEvent) {
