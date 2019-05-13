@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 export interface FilePreview {
-  data: string;
+  data: string | ArrayBuffer;
   filename: string;
 }
 
@@ -17,11 +17,17 @@ export class NgxDropzoneService {
   constructor() { }
 
   private fileCache: File[] = [];
+  private fileReject: File[] = [];
   previews: FilePreview[] = [];
 
   reset() {
     this.fileCache = [];
+    this.fileReject = [];
     this.previews = [];
+  }
+
+  getFilesRejected() {
+    return this.fileReject;
   }
 
   async parseFileList(files: FileList, accept: string, maxFileSize: number, multiple: boolean,
@@ -50,6 +56,7 @@ export class NgxDropzoneService {
      */
     if (!preserveFiles) {
       this.fileCache = [];
+      this.fileReject = [];
       this.previews = [];
     }
 
@@ -60,17 +67,20 @@ export class NgxDropzoneService {
         if (accept.endsWith('/*')) {
           // If a generic file type is provided, we check for a match.
           if (accept.split('/')[0] !== file.type.split('/')[0]) {
+            this.fileReject.push(file);
             continue;
           }
         } else {
           // Else an exact match is required.
           if (!accept.includes(file.type)) {
+            this.fileReject.push(file);
             continue;
           }
         }
       }
 
       if (maxFileSize && file.size > maxFileSize) {
+        this.fileReject.push(file);
         continue;
       }
 

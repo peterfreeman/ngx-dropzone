@@ -30,6 +30,7 @@ export class NgxDropzoneComponent {
   @Input() preserveFiles = true;
 
   @Output() filesAdded = new EventEmitter<File[]>();
+  @Output() filesRejected = new EventEmitter<File[]>();
 
   @HostBinding('class.disabled') @Input() disabled = false;
   @HostBinding('class.hovered') hovered = false;
@@ -78,7 +79,14 @@ export class NgxDropzoneComponent {
   onDrop(event) {
     this.preventDefault(event);
     this.hovered = false;
-    this.handleFileDrop(event.dataTransfer.files);
+    this.handleFileDrop(event.dataTransfer.files)
+      .then(() => {
+        // Checks if exists any file rejected
+        const filesRejected: File[] = this.service.getFilesRejected();
+        if (filesRejected.length > 0) {
+          this.filesRejected.next(filesRejected);
+        }
+      });
   }
 
   private async handleFileDrop(files: FileList): Promise<void> {
