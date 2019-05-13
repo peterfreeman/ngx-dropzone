@@ -9,4 +9,8 @@ export class AppComponent {
   onFilesAdded(event: File[]) {
     console.log(event);
   }
+
+  onFilesRejected(event: File[]) {
+    console.log(event);
+  }
 }
