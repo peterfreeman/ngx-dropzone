@@ -105,9 +105,13 @@ Use the `(filesAdded)` output event to catch a file selection or drop.\
 It returns a `File[]` of the dropped files that match the filters like file type and maximum size.\
 Use the following example code to read the file's content.
 
+Rejected files get ouput by the `(filesRejected)` event.
+
 ```html
 <!-- in app.component.html -->
-<ngx-dropzone (filesAdded)="onFilesAdded($event)"></ngx-dropzone>
+<ngx-dropzone (filesAdded)="onFilesAdded($event)" 
+              (filesRejected)="onFilesRejected($event)">
+</ngx-dropzone>
 ```
 
 ```js
@@ -132,6 +136,10 @@ onFilesAdded(files: File[]) {
     // use this for images
     // reader.readAsDataURL(file);
   });
+}
+
+onFilesRejected(files: File[]) {
+  console.log(files);
 }
 ```
 
