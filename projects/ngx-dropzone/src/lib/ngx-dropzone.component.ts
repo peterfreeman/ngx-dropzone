@@ -6,7 +6,7 @@ import {
   HostListener,
   HostBinding
 } from '@angular/core';
-import { NgxDropzoneService, FilePreview } from './ngx-dropzone.service';
+import { NgxDropzoneService, FilePreview, FileSelectResult } from './ngx-dropzone.service';
 import { resolve } from 'url';
 
 @Component({
@@ -49,9 +49,10 @@ export class NgxDropzoneComponent {
 
   onFilesSelected(event) {
     const files: FileList = event.target.files;
+
     this.handleFileDrop(files).then(() => {
       // Reset the file input value to trigger the event on new selection.
-      (this.fileInput.nativeElement as HTMLInputElement).value = null;
+      (this.fileInput.nativeElement as HTMLInputElement).value = '';
     });
   }
 
@@ -79,14 +80,7 @@ export class NgxDropzoneComponent {
   onDrop(event) {
     this.preventDefault(event);
     this.hovered = false;
-    this.handleFileDrop(event.dataTransfer.files)
-      .then(() => {
-        // Checks if exists any file rejected
-        const filesRejected: File[] = this.service.getFilesRejected();
-        if (filesRejected.length > 0) {
-          this.filesRejected.next(filesRejected);
-        }
-      });
+    this.handleFileDrop(event.dataTransfer.files);
   }
 
   private async handleFileDrop(files: FileList): Promise<void> {
@@ -97,8 +91,13 @@ export class NgxDropzoneComponent {
 
       this.service.parseFileList(files, this.accept, this.maxFileSize,
         this.multiple, this.preserveFiles, this.showPreviews)
-        .then(parsedFiles => {
-          this.filesAdded.next(parsedFiles);
+        .then((result: FileSelectResult) => {
+          this.filesAdded.next(result.addedFiles);
+
+          if (result.rejectedFiles.length) {
+            this.filesRejected.next(result.rejectedFiles);
+          }
+
           resolve();
         });
     });

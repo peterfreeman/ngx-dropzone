@@ -5,6 +5,11 @@ export interface FilePreview {
   filename: string;
 }
 
+export interface FileSelectResult {
+  addedFiles: File[];
+  rejectedFiles: File[];
+}
+
 /**
  * UPDATE 04.04.2019:
  * Refactored to use service class to handle any
@@ -17,21 +22,17 @@ export class NgxDropzoneService {
   constructor() { }
 
   private fileCache: File[] = [];
-  private fileReject: File[] = [];
+  private rejectedFiles: File[] = [];
   previews: FilePreview[] = [];
 
   reset() {
     this.fileCache = [];
-    this.fileReject = [];
+    this.rejectedFiles = [];
     this.previews = [];
   }
 
-  getFilesRejected() {
-    return this.fileReject;
-  }
-
   async parseFileList(files: FileList, accept: string, maxFileSize: number, multiple: boolean,
-    preserveFiles: boolean, showPreviews: boolean): Promise<File[]> {
+    preserveFiles: boolean, showPreviews: boolean): Promise<FileSelectResult> {
 
     /**
      * UPDATE 27.01.2019:
@@ -56,7 +57,7 @@ export class NgxDropzoneService {
      */
     if (!preserveFiles) {
       this.fileCache = [];
-      this.fileReject = [];
+      this.rejectedFiles = [];
       this.previews = [];
     }
 
@@ -67,20 +68,20 @@ export class NgxDropzoneService {
         if (accept.endsWith('/*')) {
           // If a generic file type is provided, we check for a match.
           if (accept.split('/')[0] !== file.type.split('/')[0]) {
-            this.fileReject.push(file);
+            this.rejectedFiles.push(file);
             continue;
           }
         } else {
           // Else an exact match is required.
           if (!accept.includes(file.type)) {
-            this.fileReject.push(file);
+            this.rejectedFiles.push(file);
             continue;
           }
         }
       }
 
       if (maxFileSize && file.size > maxFileSize) {
-        this.fileReject.push(file);
+        this.rejectedFiles.push(file);
         continue;
       }
 
@@ -113,7 +114,12 @@ export class NgxDropzoneService {
       this.fileCache.push(file);
     }
 
-    return this.fileCache;
+    const result: FileSelectResult = {
+      addedFiles: this.fileCache,
+      rejectedFiles: this.rejectedFiles
+    };
+
+    return result;
   }
 
   private async readFile(file: File): Promise<FilePreview> {

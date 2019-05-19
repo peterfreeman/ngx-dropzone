@@ -1,6 +1,6 @@
 # ngx- dropzone
 
-A lightweight and highly customizable Angular dropzone component to catch file uploads.
+A lightweight and highly customizable Angular dropzone component to initialize file uploads.
 
 [![NPM](https://img.shields.io/npm/v/ngx-dropzone.svg)](https://www.npmjs.com/package/ngx-dropzone) [![Build Status](https://travis-ci.com/peterfreeman/ngx-dropzone.svg?branch=master)](https://travis-ci.com/peterfreeman/ngx-dropzone)
 
@@ -46,15 +46,19 @@ export class AppModule { }
 
 ## Options
 
+### Attributes
+
 | Property |   Type  | Description | Default  |
 |--------------|-------|------------------------------------------------|---------|
 | `[label]`    | `string`  | Change the label text.   | `'Drop your files here (or click)'` |
 | `[multiple]` | `boolean` | Allow drop or selection of more than one file. | `true` |
 | `[accept]`    | `string`  | Specify the accepted file types.   | `'*'` |
 | `[maxFileSize]`    | `number`  | Set the maximum file size in bytes.   | `undefined` |
-| `[showImagePreviews]`    | `boolean`  | Show image previews in the dropzone.   | `false` |
+| `[showPreviews]`    | `boolean`  | Show file previews in the dropzone.   | `false` |
 | `[preserveFiles]`    | `boolean`  | Preserve all selected files since the last reset.   | `true` |
 | `[disabled]`    | `boolean`  | Disable any drop or click interaction.   | `false` |
+
+### Methods
 
 | Method |  Description | Return value  |
 |--------------|-----------------------------------------------|---------|
@@ -80,11 +84,11 @@ export class AppModule { }
 ```
 
 ```html
-<ngx-dropzone [showImagePreviews]="true" [preserveFiles]="false"></ngx-dropzone>
+<ngx-dropzone [showPreviews]="true" [preserveFiles]="false"></ngx-dropzone>
 ```
 
 ```html
-<ngx-dropzone [showImagePreviews]="true" #dropzone></ngx-dropzone>
+<ngx-dropzone [showPreviews]="true" #dropzone></ngx-dropzone>
 <button (click)="dropzone.reset()">Reset</button>
 <button (click)="dropzone.showFileSelector()">Show file selector</button>
 ```
@@ -101,9 +105,13 @@ Use the `(filesAdded)` output event to catch a file selection or drop.\
 It returns a `File[]` of the dropped files that match the filters like file type and maximum size.\
 Use the following example code to read the file's content.
 
+Rejected files get ouput by the `(filesRejected)` event.
+
 ```html
 <!-- in app.component.html -->
-<ngx-dropzone (filesAdded)="onFilesAdded($event)"></ngx-dropzone>
+<ngx-dropzone (filesAdded)="onFilesAdded($event)"
+              (filesRejected)="onFilesRejected($event)">
+</ngx-dropzone>
 ```
 
 ```js
@@ -117,8 +125,8 @@ onFilesAdded(files: File[]) {
     reader.onload = (e: ProgressEvent) => {
       const content = (e.target as FileReader).result;
 
-      // this content string could be used as an image source
-      // or be uploaded to a webserver via HTTP.
+      // this content string could be used directly as an image source
+      // or be uploaded to a webserver via HTTP request.
       console.log(content);
     };
 
@@ -128,6 +136,10 @@ onFilesAdded(files: File[]) {
     // use this for images
     // reader.readAsDataURL(file);
   });
+}
+
+onFilesRejected(files: File[]) {
+  console.log(files);
 }
 ```
 
@@ -174,7 +186,7 @@ You can still use the same properties like for the default styling.
 
 ```html
 <!-- in app.component.html -->
-<ngx-dropzone class="custom-dropzone" [showImagePreviews]="true"></ngx-dropzone>
+<ngx-dropzone class="custom-dropzone" [showPreviews]="true"></ngx-dropzone>
 ```
 
 <img src="_images/custom_preview.png">
