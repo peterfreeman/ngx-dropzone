@@ -1,7 +1,7 @@
 {
   "name": "ngx-dropzone",
   "description": "A highly configurable dropzone component for Angular.",
-  "version": "1.1.5",
+  "version": "1.2.0",
   "author": "Peter Freeman",
   "keywords": [
     "angular",
