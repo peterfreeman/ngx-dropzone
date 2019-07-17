@@ -41,24 +41,24 @@ export class AppModule { }
 
 ## Features of v2
 
-[ ] Default dropzone with hover effect
-[ ] Make any target a valid dropzone with hover effect via directive
-[ ] Label component
-[ ] Allow multiple files
-[ ] Accept only certain file types
-[ ] Set a max file size
-[ ] FilesChanged, FilesAdded, FilesRejected, FilesRemoved events
-[ ] Support reactive forms (and ngModel?)
-[ ] Image, Video and default preview components
-[ ] Allow inheritance for custom preview components
-[ ] Allow selecting previews
-[ ] Allow removing files
-[ ] Preserve files property
-[ ] Disabled property
-[ ] public method to show file selector
-[ ] public method to reset files
-[ ] Orientation Property to either expand dz container or scroll horizontally
-[ ] Add keyboard interaction
+- [ ] Default dropzone with hover effect
+- [ ] Make any target a valid dropzone with hover effect via directive
+- [ ] Label component
+- [ ] Allow multiple files
+- [ ] Accept only certain file types
+- [ ] Set a max file size
+- [ ] FilesChanged, FilesAdded, FilesRejected, FilesRemoved events
+- [ ] Support reactive forms (and ngModel?)
+- [ ] Image, Video and default preview components
+- [ ] Allow inheritance for custom preview components
+- [ ] Allow selecting previews
+- [ ] Allow removing files
+- [ ] Preserve files property
+- [ ] Disabled property
+- [ ] public method to show file selector
+- [ ] public method to reset files
+- [ ] Orientation Property to either expand dz container or scroll horizontally
+- [ ] Add keyboard interaction
 
 ## Licence
 
