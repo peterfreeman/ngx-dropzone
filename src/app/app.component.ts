@@ -1,16 +1,25 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+	selector: 'app-root',
+	templateUrl: './app.component.html',
+	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  onFilesAdded(event: File[]) {
-    console.log(event);
-  }
 
-  onFilesRejected(event: File[]) {
-    console.log(event);
-  }
+	files: File[];
+
+	onFilesAdded(event: File[]) {
+		console.log(event);
+		this.files = event;
+	}
+
+	onFilesRejected(event: File[]) {
+		console.log(event);
+	}
+
+	onRemove(event) {
+		console.log(event);
+		this.files.splice(this.files.indexOf(event), 1);
+	}
 }

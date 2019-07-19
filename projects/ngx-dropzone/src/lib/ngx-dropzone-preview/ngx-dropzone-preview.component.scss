@@ -1,0 +1,54 @@
+$side-length: 150px;
+
+:host() {
+	display: flex;
+	height: $side-length;
+	justify-content: center;
+	align-items: center;
+	padding: 0 20px;
+	border-radius: 5px;
+	background-image: linear-gradient(to top, #ededed, #efefef, #f1f1f1, #f4f4f4, #f6f6f6);
+	position: relative;
+
+	&:hover {
+		background-image: linear-gradient(to top, #e6e6e6, #ededed, #efefef, #f1f1f1, #f4f4f4);
+
+		.badge {
+			opacity: 1;
+		}
+	}
+
+	.badge {
+		opacity: 0;
+		display: flex;
+    justify-content: center;
+    align-items: center;
+		position: absolute;
+		top: 5px;
+		right: 5px;
+		height: 22px;
+		width: 22px;
+		border-radius: 50%;
+		background: #bbb;
+		color: #333;
+		cursor: pointer;
+
+		&:hover {
+			background: darken(#bbb, 5%);
+		}
+
+		> svg {
+			height: 10px;
+			width: 10px;
+
+			> line {
+				stroke-width: 2px;
+				stroke: #fff;
+			}
+		}
+	}
+
+	::ng-deep ngx-dropzone-label {
+		overflow-wrap: break-word;
+	}
+}
