@@ -1,4 +1,4 @@
-ngx-dropzone {
+ngx-dropzone-container {
   margin: 20px;
 }
 
@@ -10,7 +10,7 @@ ngx-dropzone {
 	border-radius: 5px;
 	font-size: 20px;
 
-	&.hovered {
+	&.ngx-dz-hovered {
 		color: #fff;
 		border: 5px solid rgb(235, 79, 79);
 	}

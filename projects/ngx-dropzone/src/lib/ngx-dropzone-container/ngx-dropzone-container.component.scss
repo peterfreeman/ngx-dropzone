@@ -12,11 +12,11 @@ $dz-border: #717386;
 	border-radius: 5px;
 	font-size: 16px;
 
-	&.hovered {
+	&.ngx-dz-hovered {
 		border-style: solid;
 	}
 
-	&.disabled {
+	&.ngx-dz-disabled {
 		opacity: 0.5;
 		cursor: no-drop;
 		pointer-events: none;

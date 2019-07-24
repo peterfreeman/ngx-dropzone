@@ -1,22 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgxDropzoneComponent } from './ngx-dropzone.component';
 import { NgxDropzoneLabelDirective } from './ngx-dropzone-label.directive';
 import { NgxDropzonePreviewComponent } from './ngx-dropzone-preview/ngx-dropzone-preview.component';
+import { NgxDropzoneDirective } from './ngx-dropzone.directive';
+import { NgxDropzoneContainerComponent } from './ngx-dropzone-container/ngx-dropzone-container.component';
 
 @NgModule({
 	imports: [
 		CommonModule
 	],
 	declarations: [
-		NgxDropzoneComponent,
 		NgxDropzoneLabelDirective,
-		NgxDropzonePreviewComponent
+		NgxDropzonePreviewComponent,
+		NgxDropzoneDirective,
+		NgxDropzoneContainerComponent
 	],
 	exports: [
-		NgxDropzoneComponent,
 		NgxDropzoneLabelDirective,
-		NgxDropzonePreviewComponent
+		NgxDropzonePreviewComponent,
+		NgxDropzoneDirective,
+		NgxDropzoneContainerComponent
 	]
 })
 export class NgxDropzoneModule { }

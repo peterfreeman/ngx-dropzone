@@ -1,37 +1,16 @@
-import
-{
-	Component,
-	Input, Output, ElementRef, ViewChild,
-	AfterViewInit, EventEmitter, TemplateRef,
-	ViewEncapsulation,
-	HostListener,
-	HostBinding,
-	Self,
-	ContentChildren,
-	QueryList
-} from '@angular/core';
-import { NgxDropzoneService, FilePreview, FileSelectResult } from './ngx-dropzone.service';
-import { NgxDropzonePreviewComponent } from './ngx-dropzone-preview/ngx-dropzone-preview.component';
+import { Directive, Output, EventEmitter, Input, HostListener, HostBinding, Self, ViewChild, OnInit } from '@angular/core';
 import { coerceNumberProperty, coerceBooleanProperty } from './helpers';
+import { NgxDropzoneService, FileSelectResult } from './ngx-dropzone.service';
 
-@Component({
-	// tslint:disable-next-line:component-selector
-	selector: 'ngx-dropzone, [ngx-dropzone]',
-	templateUrl: './ngx-dropzone.component.html',
-	styleUrls: ['./ngx-dropzone.component.scss'],
+@Directive({
+	// tslint:disable-next-line:directive-selector
+	selector: '[ngx-dropzone]',
 	providers: [NgxDropzoneService]
 })
-export class NgxDropzoneComponent
-{
+export class NgxDropzoneDirective {
 	constructor(
 		@Self() public service: NgxDropzoneService
 	) { }
-
-	/** A reference to the native file input element to show the OS file selector. */
-	@ViewChild('fileInput') protected fileInput: ElementRef;
-
-	/** A list of the content-projected preview children. */
-	@ContentChildren(NgxDropzonePreviewComponent) _previewChildren: QueryList<NgxDropzonePreviewComponent>;
 
 	/** Emitted when any files were added or removed. */
 	@Output() readonly filesChanged = new EventEmitter<File[]>();
@@ -50,17 +29,14 @@ export class NgxDropzoneComponent
 
 	/** Disable any user interaction with the component. */
 	@Input()
-	@HostBinding('class.disabled')
-	get disabled(): boolean
-	{
+	@HostBinding('class.ngx-dz-disabled')
+	get disabled(): boolean {
 		return this._disabled;
 	}
-	set disabled(value: boolean)
-	{
+	set disabled(value: boolean) {
 		this._disabled = coerceBooleanProperty(value);
 
-		if (this._isHovered)
-		{
+		if (this._isHovered) {
 			this._isHovered = false;
 		}
 	}
@@ -68,36 +44,30 @@ export class NgxDropzoneComponent
 
 	/** Allow the selection of multiple files. */
 	@Input()
-	get multiple(): boolean
-	{
+	get multiple(): boolean {
 		return this._multiple;
 	}
-	set multiple(value: boolean)
-	{
+	set multiple(value: boolean) {
 		this._multiple = coerceBooleanProperty(value);
 	}
 	protected _multiple = true;
 
 	/** Set the maximum size a single file may have. */
 	@Input()
-	get maxFileSize(): number
-	{
+	get maxFileSize(): number {
 		return this._maxFileSize;
 	}
-	set maxFileSize(value: number)
-	{
+	set maxFileSize(value: number) {
 		this._maxFileSize = coerceNumberProperty(value);
 	}
 	protected _maxFileSize: number = undefined;
 
-	@HostBinding('class.hovered')
+	@HostBinding('class.ngx-dz-hovered')
 	_isHovered = false;
 
 	@HostListener('dragover', ['$event'])
-	_onDragOver(event)
-	{
-		if (this.disabled)
-		{
+	_onDragOver(event) {
+		if (this.disabled) {
 			return;
 		}
 
@@ -106,16 +76,13 @@ export class NgxDropzoneComponent
 	}
 
 	@HostListener('dragleave')
-	_onDragLeave()
-	{
+	_onDragLeave() {
 		this._isHovered = false;
 	}
 
 	@HostListener('drop', ['$event'])
-	_onDrop(event)
-	{
-		if (this.disabled)
-		{
+	_onDrop(event) {
+		if (this.disabled) {
 			return;
 		}
 
@@ -126,42 +93,34 @@ export class NgxDropzoneComponent
 
 	/** Show the native OS file explorer to select files. */
 	@HostListener('click')
-	showFileSelector()
-	{
-		if (!this.disabled)
-		{
-			this.fileInput.nativeElement.click();
+	showFileSelector() {
+		if (!this.disabled) {
+			// TODO: Is this okay with Angular?
+			const fileInput = document.createElement('input');
+			fileInput.setAttribute('type', 'file');
+			fileInput.setAttribute('multiple', this.multiple.toString());
+			fileInput.setAttribute('accept', this.accept);
+			fileInput.addEventListener('change', ($event) => this._onFilesSelected($event, fileInput));
+			fileInput.click();
 		}
 	}
 
-	get _hasPreviews(): boolean
-	{
-		return !!this._previewChildren.length;
-	}
-
-	_onFilesSelected(event)
-	{
+	_onFilesSelected(event, fileInputElement: HTMLInputElement) {
 		const files: FileList = event.target.files;
 
-		this.handleFileDrop(files).then(() =>
-		{
-			// Reset the file input value to trigger the event on new selection.
-			(this.fileInput.nativeElement as HTMLInputElement).value = '';
+		this.handleFileDrop(files).then(() => {
+			fileInputElement.remove();
 		});
 	}
 
-	private async handleFileDrop(files: FileList): Promise<void>
-	{
-		return new Promise<void>(resolve =>
-		{
+	private async handleFileDrop(files: FileList): Promise<void> {
+		return new Promise<void>(resolve => {
 			this.service.parseFileList(files, this.accept, this.maxFileSize,
 				this.multiple)
-				.then((result: FileSelectResult) =>
-				{
+				.then((result: FileSelectResult) => {
 					this.filesAdded.next(result.addedFiles);
 
-					if (result.rejectedFiles.length)
-					{
+					if (result.rejectedFiles.length) {
 						this.filesRejected.next(result.rejectedFiles);
 					}
 
@@ -170,8 +129,7 @@ export class NgxDropzoneComponent
 		});
 	}
 
-	private preventDefault(event: DragEvent)
-	{
+	private preventDefault(event: DragEvent) {
 		event.preventDefault();
 		event.stopPropagation();
 	}
