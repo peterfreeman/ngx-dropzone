@@ -7,11 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-	files: File[];
+	files: File[] = [];
 
 	onFilesAdded(event: File[]) {
 		console.log(event);
-		this.files = event;
+		this.files.push(...event);
 	}
 
 	onFilesRejected(event: File[]) {

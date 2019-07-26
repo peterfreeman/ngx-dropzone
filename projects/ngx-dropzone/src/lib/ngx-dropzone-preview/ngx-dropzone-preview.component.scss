@@ -2,6 +2,8 @@
 :host() {
 	display: flex;
 	height: 150px;
+	min-height: 150px;
+	min-width: 180px;
 	max-width: 180px;
 	justify-content: center;
 	align-items: center;

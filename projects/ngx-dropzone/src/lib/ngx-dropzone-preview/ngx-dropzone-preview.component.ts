@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { coerceBooleanProperty } from '../helpers';
 
 @Component({
-	// tslint:disable-next-line:component-selector
 	selector: 'ngx-dropzone-preview',
 	template: `
 		<ng-content select="ngx-dropzone-label"></ng-content>
@@ -40,5 +39,22 @@ export class NgxDropzonePreviewComponent {
 
 	remove() {
 		this.removed.next(this.file);
+	}
+
+	protected async readFile(): Promise<string | ArrayBuffer> {
+		return new Promise<string | ArrayBuffer>((resolve, reject) => {
+			const reader = new FileReader();
+
+			reader.onload = e => {
+				return resolve((e.target as FileReader).result);
+			};
+
+			reader.onerror = e => {
+				console.error(`FileReader failed on file ${this.file.name}.`);
+				return reject(null);
+			};
+
+			reader.readAsDataURL(this.file);
+		});
 	}
 }

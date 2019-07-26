@@ -1,55 +1,31 @@
 Default
-<ngx-dropzone-container></ngx-dropzone-container>
+<ngx-dropzone></ngx-dropzone>
 
-<ngx-dropzone-container #drop ngx-dropzone (filesAdded)="onFilesAdded($event)">
+<ngx-dropzone #drop (filesAdded)="onFilesAdded($event)">
 	<ngx-dropzone-label>Drop it like it's hot!</ngx-dropzone-label>
 	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
 		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
 	</ngx-dropzone-preview>
-</ngx-dropzone-container>
+</ngx-dropzone>
 
-<!-- <button (click)="drop.showFileSelector()">Open</button> -->
+<button (click)="drop.showFileSelector()">Open</button>
 
-<ngx-dropzone-container ngx-dropzone (filesAdded)="onFilesAdded($event)" [disabled]="true">
+<ngx-dropzone (filesAdded)="onFilesAdded($event)" [disabled]="true">
 	<ngx-dropzone-label>Drop it like it's hot!</ngx-dropzone-label>
 	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
 		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
 	</ngx-dropzone-preview>
-</ngx-dropzone-container>
+</ngx-dropzone>
 
-<div class="custom-dropzone" ngx-dropzone (filesAdded)="onFilesAdded($event)">
+<div class="custom-dropzone" ngx-dropzone [accept]="'image/png'" (filesAdded)="onFilesAdded($event)"
+	(filesRejected)="onFilesRejected($event)">
 	<ngx-dropzone-label>
 		<div>
 			<h2>My custom dropzone</h2>
 		</div>
 	</ngx-dropzone-label>
 	<p>P-Element</p>
+	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+	</ngx-dropzone-preview>
 </div>
-<!-- Disabled
-<ngx-dropzone [disabled]="true"></ngx-dropzone>
-With event listener
-<ngx-dropzone (filesAdded)="onFilesAdded($event)"></ngx-dropzone>
-Multiple disabled
-<ngx-dropzone [multiple]="false" (filesAdded)="onFilesAdded($event)"></ngx-dropzone>
-Label
-<ngx-dropzone [label]="'This is a custom label text'"></ngx-dropzone>
-Accepts "image/*"
-<ngx-dropzone [accept]="'image/*'" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)">
-</ngx-dropzone>
-Shows previews
-<button (click)="drop.reset()">Reset</button>
-<ngx-dropzone [showPreviews]="true" (filesAdded)="onFilesAdded($event)" #drop></ngx-dropzone>
-Shows previews without preserving
-<ngx-dropzone [showPreviews]="true" [preserveFiles]="false" (filesAdded)="onFilesAdded($event)"></ngx-dropzone>
-Max File size 2kb
-<ngx-dropzone [maxFileSize]="2000" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)">
-</ngx-dropzone>
-
-Custom styling
-<ngx-dropzone class="custom-dropzone" label="Drop it!" (filesAdded)="onFilesAdded($event)"></ngx-dropzone>
-
-Custom styling disabled
-<ngx-dropzone class="custom-dropzone" [disabled]="true" (filesAdded)="onFilesAdded($event)"></ngx-dropzone>
-
-Custom styling with preview
-<ngx-dropzone class="custom-dropzone" [showPreviews]="true" (filesAdded)="onFilesAdded($event)"></ngx-dropzone> -->
