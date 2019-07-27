@@ -42,15 +42,15 @@ export class AppModule { }
 ## Features of v2
 
 - [x] Default dropzone ngx-dropzone with hover effect
-- [ ] Make any target a valid dropzone with hover effect via directive
+- [x] Make any target a valid dropzone with hover effect via directive
 - [x] Label component
-- [ ] Allow multiple files
-- [ ] Accept only certain file types
-- [ ] Set a max file size
-- [ ] FilesChanged, FilesAdded, FilesRejected, FilesRemoved events
+- [x] Allow multiple files
+- [x] Accept only certain file types
+- [x] Set a max file size
+- [x] FilesChanged, FilesAdded, FilesRejected, FilesRemoved events
 - [ ] Support reactive forms (and ngModel?)
 - [ ] Image, Video and default preview components
-- [ ] Allow inheritance for custom preview components (Comp inheritance OR mixins ?) (http://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/)
+- [x] Allow inheritance for custom preview components (Comp inheritance OR mixins ?) (http://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/)
 - [ ] Allow tab-selecting previews
 - [x] Allow removing files
 - [x] Disabled property

@@ -17,6 +17,13 @@ Default
 	</ngx-dropzone-preview>
 </ngx-dropzone>
 
+<ngx-dropzone (filesAdded)="onFilesAdded($event)" [maxFileSize]="500000">
+	<ngx-dropzone-label>Drop it like it's hot!</ngx-dropzone-label>
+	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+	</ngx-dropzone-preview>
+</ngx-dropzone>
+
 <div class="custom-dropzone" ngx-dropzone [accept]="'image/png'" (filesAdded)="onFilesAdded($event)"
 	(filesRejected)="onFilesRejected($event)">
 	<ngx-dropzone-label>
@@ -25,7 +32,7 @@ Default
 		</div>
 	</ngx-dropzone-label>
 	<p>P-Element</p>
-	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+	<ngx-dropzone-image-preview *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
 		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-	</ngx-dropzone-preview>
+	</ngx-dropzone-image-preview>
 </div>

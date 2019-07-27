@@ -1,21 +1,23 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { coerceBooleanProperty } from '../helpers';
+import { SafeStyle, DomSanitizer } from '@angular/platform-browser';
 
 @Component({
 	selector: 'ngx-dropzone-preview',
 	template: `
 		<ng-content select="ngx-dropzone-label"></ng-content>
-		<div class="badge" *ngIf="removable" (click)="_remove($event)">
-			<svg>
-				<line x1="0" y1="0" x2="10" y2="10" />
-				<line x1="0" y1="10" x2="10" y2="0" />
-			</svg>
-		</div>
+		<ngx-dropzone-remove-badge *ngIf="removable" (click)="_remove($event)">
+		</ngx-dropzone-remove-badge>
 	`,
 	styleUrls: ['./ngx-dropzone-preview.component.scss']
 })
 export class NgxDropzonePreviewComponent {
 
+	constructor(
+		protected sanitizer: DomSanitizer
+	) { }
+
+	/** The file to preview. */
 	@Input() file: File;
 
 	/** Allow the user to remove files. */
@@ -28,15 +30,37 @@ export class NgxDropzonePreviewComponent {
 	}
 	protected _removable = false;
 
+	/** Emitted when the element should be removed. */
 	@Output() readonly removed = new EventEmitter<File>();
+
+	/** We use the HostBinding to pass these common styles to child components. */
+	@HostBinding('style')
+	get hostStyle(): SafeStyle {
+		const styles = `
+			display: flex;
+			height: 150px;
+			min-height: 150px;
+			min-width: 180px;
+			max-width: 180px;
+			justify-content: center;
+			align-items: center;
+			padding: 0 20px;
+			border-radius: 5px;
+			position: relative;
+		`;
+
+		return this.sanitizer.bypassSecurityTrustStyle(styles);
+	}
 
 	// TODO: add keyboard events
 
+	/** Remove method to be used from the template. */
 	_remove(event) {
 		event.stopPropagation();
 		this.remove();
 	}
 
+	/** Remove the preview item (use from component code). */
 	remove() {
 		this.removed.next(this.file);
 	}
@@ -53,6 +77,11 @@ export class NgxDropzonePreviewComponent {
 				console.error(`FileReader failed on file ${this.file.name}.`);
 				return reject(null);
 			};
+
+			if (!this.file) {
+				console.error('No file to read. Please provide a file using the component Input property.');
+				return reject(null);
+			}
 
 			reader.readAsDataURL(this.file);
 		});

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { NgxDropzoneLabelDirective } from './ngx-dropzone-label.directive';
 import { NgxDropzonePreviewComponent } from './ngx-dropzone-preview/ngx-dropzone-preview.component';
 import { NgxDropzoneComponent } from './ngx-dropzone/ngx-dropzone.component';
+import { NgxDropzoneImagePreviewComponent } from './ngx-dropzone-preview/ngx-dropzone-image-preview/ngx-dropzone-image-preview.component';
+import { NgxDropzoneRemoveBadgeComponent } from './ngx-dropzone-preview/ngx-dropzone-remove-badge/ngx-dropzone-remove-badge.component';
 
 @NgModule({
 	imports: [
@@ -12,11 +14,15 @@ import { NgxDropzoneComponent } from './ngx-dropzone/ngx-dropzone.component';
 		NgxDropzoneComponent,
 		NgxDropzoneLabelDirective,
 		NgxDropzonePreviewComponent,
+		NgxDropzoneImagePreviewComponent,
+		NgxDropzoneRemoveBadgeComponent,
 	],
 	exports: [
 		NgxDropzoneComponent,
 		NgxDropzoneLabelDirective,
 		NgxDropzonePreviewComponent,
+		NgxDropzoneImagePreviewComponent,
+		NgxDropzoneRemoveBadgeComponent,
 	]
 })
 export class NgxDropzoneModule { }

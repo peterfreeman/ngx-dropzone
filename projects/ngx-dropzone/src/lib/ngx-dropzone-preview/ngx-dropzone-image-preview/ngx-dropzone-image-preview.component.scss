@@ -1,10 +1,10 @@
 
 :host() {
-	background-image: linear-gradient(to top, #ededed, #efefef, #f1f1f1, #f4f4f4, #f6f6f6);
+	min-width: unset !important;
+	max-width: unset !important;
+	padding: 0 !important;
 
 	&:hover {
-		background-image: linear-gradient(to top, #e6e6e6, #ededed, #efefef, #f1f1f1, #f4f4f4);
-
 		ngx-dropzone-remove-badge {
 			opacity: 1;
 		}
@@ -14,7 +14,14 @@
 		opacity: 0;
 	}
 
+	img {
+		max-height: 100%;
+		border-radius: 5px;
+		opacity: 0.8;
+	}
+
 	::ng-deep ngx-dropzone-label {
+		position: absolute;
 		overflow-wrap: break-word;
 	}
 }
