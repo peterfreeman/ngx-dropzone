@@ -49,7 +49,7 @@ export class AppModule { }
 - [x] Set a max file size
 - [x] FilesChanged, FilesAdded, FilesRejected, FilesRemoved events
 - [ ] Support reactive forms (and ngModel?)
-- [ ] Image, Video and default preview components
+- [x] Image, Video and default preview components
 - [x] Allow inheritance for custom preview components (Comp inheritance OR mixins ?) (http://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/)
 - [ ] Allow tab-selecting previews
 - [x] Allow removing files

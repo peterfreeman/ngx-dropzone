@@ -79,7 +79,7 @@ export class NgxDropzonePreviewComponent {
 			};
 
 			if (!this.file) {
-				console.error('No file to read. Please provide a file using the component Input property.');
+				console.error('No file to read. Please provide a file using the [file] Input property.');
 				return reject(null);
 			}
 

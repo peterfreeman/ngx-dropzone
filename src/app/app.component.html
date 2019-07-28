@@ -36,3 +36,15 @@ Default
 		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
 	</ngx-dropzone-image-preview>
 </div>
+
+<div class="custom-dropzone" ngx-dropzone [accept]="'video/*'" (filesAdded)="onFilesAdded($event)"
+	(filesRejected)="onFilesRejected($event)">
+	<ngx-dropzone-label>
+		<div>
+			<h2>My custom dropzone</h2>
+		</div>
+	</ngx-dropzone-label>
+	<ngx-dropzone-video-preview *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+	</ngx-dropzone-video-preview>
+</div>

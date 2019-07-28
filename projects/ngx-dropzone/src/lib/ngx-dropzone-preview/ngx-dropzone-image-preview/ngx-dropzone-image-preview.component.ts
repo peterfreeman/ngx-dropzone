@@ -26,6 +26,6 @@ export class NgxDropzoneImagePreviewComponent extends NgxDropzonePreviewComponen
   ngOnInit() {
     this.readFile()
       .then(img => this.imageSrc = img)
-      .catch(() => { });
+      .catch(err => console.error(err));
   }
 }

@@ -1,0 +1,21 @@
+
+:host() {
+	min-width: unset !important;
+	max-width: unset !important;
+	padding: 0 !important;
+
+	&:hover {
+		ngx-dropzone-remove-badge {
+			opacity: 1;
+		}
+	}
+
+	ngx-dropzone-remove-badge {
+		opacity: 0;
+	}
+
+	video {
+		max-height: 100%;
+		border-radius: 5px;
+	}
+}
