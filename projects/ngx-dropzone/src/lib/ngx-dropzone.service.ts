@@ -32,7 +32,7 @@ export class NgxDropzoneService {
   }
 
   async parseFileList(files: FileList, accept: string, maxFileSize: number, multiple: boolean,
-    preserveFiles: boolean, showPreviews: boolean): Promise<FileSelectResult> {
+                      preserveFiles: boolean, showPreviews: boolean): Promise<FileSelectResult> {
 
     /**
      * UPDATE 27.01.2019:
@@ -48,10 +48,7 @@ export class NgxDropzoneService {
      * UPDATE 12.03.2019:
      * Refactored to use fileCache and emit all dropped files
      * since the last reset if [preserveFiles] is true.
-     */
-    const hasFiletypeFilter = accept !== '*';
-
-    /**
+     *
      * UPDATE 12.03.2019:
      * Added option to preserve preview images.
      */
@@ -64,20 +61,9 @@ export class NgxDropzoneService {
     for (let i = 0; i < files.length; i++) {
       const file = files.item(i);
 
-      if (hasFiletypeFilter) {
-        if (accept.endsWith('/*')) {
-          // If a generic file type is provided, we check for a match.
-          if (accept.split('/')[0] !== file.type.split('/')[0]) {
-            this.rejectedFiles.push(file);
-            continue;
-          }
-        } else {
-          // Else an exact match is required.
-          if (!accept.includes(file.type)) {
-            this.rejectedFiles.push(file);
-            continue;
-          }
-        }
+      if (!NgxDropzoneService.isAccepted(file, accept)) {
+        this.rejectedFiles.push(file);
+        continue;
       }
 
       if (maxFileSize && file.size > maxFileSize) {
@@ -120,6 +106,29 @@ export class NgxDropzoneService {
     };
 
     return result;
+  }
+
+  private static isAccepted(file: File, accept: string): boolean {
+    if (accept === '*') {
+      return true;
+    }
+
+    const filetypes = accept.split(',').map(it => it.toLowerCase().trim());
+    const matchedFileType = filetypes.find(filetype => {
+      const lowerCaseFileType = filetype.toLowerCase();
+      // check for wildcard mimetype (e.g. image/*)
+      if (filetype.endsWith('/*')) {
+        return file.type.toLowerCase().split('/')[0] === filetype.split('/')[0];
+      }
+      // check for file extension (e.g. .csv)
+      if (filetype.startsWith(".")) {
+        return file.name.toLowerCase().endsWith(filetype);
+      }
+      // check for exact mimetype match (e.g. image/jpeg)
+      return filetype == file.type;
+    });
+
+    return matchedFileType !== undefined;
   }
 
   private async readFile(file: File): Promise<FilePreview> {
