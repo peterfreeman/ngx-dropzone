@@ -1,30 +1,31 @@
 Default
 <ngx-dropzone></ngx-dropzone>
 
-<ngx-dropzone #drop (filesAdded)="onFilesAdded($event)">
+<ngx-dropzone #drop (change)="onFilesAdded($event)">
 	<ngx-dropzone-label>Drop it like it's hot!</ngx-dropzone-label>
-	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+	<ngx-dropzone-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [removable]="true"
+		(removed)="onRemove(f)">
 		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
 	</ngx-dropzone-preview>
 </ngx-dropzone>
 
 <button (click)="drop.showFileSelector()">Open</button>
 
-<ngx-dropzone (filesAdded)="onFilesAdded($event)" [disabled]="true">
+<ngx-dropzone (change)="onFilesAdded($event)" [disabled]="true" [expandable]="true">
 	<ngx-dropzone-label>Drop it like it's hot!</ngx-dropzone-label>
 	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
 		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
 	</ngx-dropzone-preview>
 </ngx-dropzone>
 
-<ngx-dropzone (filesAdded)="onFilesAdded($event)" [maxFileSize]="500000">
-	<ngx-dropzone-label>Drop it like it's hot!</ngx-dropzone-label>
+<ngx-dropzone (change)="onFilesAdded($event)" [multiple]="false">
+	<ngx-dropzone-label>Drop it like it's hott!</ngx-dropzone-label>
 	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
 		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
 	</ngx-dropzone-preview>
 </ngx-dropzone>
 
-<div class="custom-dropzone" ngx-dropzone [accept]="'image/png'" (filesAdded)="onFilesAdded($event)"
+<div class="custom-dropzone" ngx-dropzone [accept]="'image/png'" (change)="onFilesAdded($event)"
 	(filesRejected)="onFilesRejected($event)">
 	<ngx-dropzone-label>
 		<div>
@@ -32,12 +33,13 @@ Default
 		</div>
 	</ngx-dropzone-label>
 	<p>P-Element</p>
-	<ngx-dropzone-image-preview *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+	<ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true"
+		(removed)="onRemove(f)">
 		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
 	</ngx-dropzone-image-preview>
 </div>
 
-<div class="custom-dropzone" ngx-dropzone [accept]="'video/*'" (filesAdded)="onFilesAdded($event)"
+<div class="custom-dropzone" ngx-dropzone [accept]="'video/*'" (change)="onFilesAdded($event)"
 	(filesRejected)="onFilesRejected($event)">
 	<ngx-dropzone-label>
 		<div>

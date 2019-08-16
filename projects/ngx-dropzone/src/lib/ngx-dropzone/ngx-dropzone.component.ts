@@ -2,6 +2,13 @@ import { Component, OnInit, EventEmitter, Output, Input, ViewChild, ContentChild
 import { NgxDropzoneService, FileSelectResult } from '../ngx-dropzone.service';
 import { coerceBooleanProperty, coerceNumberProperty } from '../helpers';
 import { NgxDropzonePreviewComponent } from '../ngx-dropzone-preview/ngx-dropzone-preview.component';
+import { NgxDropzonePreviewDirective } from '../ngx-dropzone-preview/ngx-dropzone-preview.directive';
+
+export interface NgxDropzoneChangeEvent {
+  source: NgxDropzoneComponent;
+  addedFiles: File[];
+  rejectedFiles: File[];
+}
 
 @Component({
   selector: 'ngx-dropzone, [ngx-dropzone]',
@@ -16,7 +23,8 @@ export class NgxDropzoneComponent {
   ) { }
 
   /** A list of the content-projected preview children. */
-  @ContentChildren(NgxDropzonePreviewComponent) _previewChildren: QueryList<NgxDropzonePreviewComponent>;
+  @ContentChildren(NgxDropzonePreviewComponent)
+  _previewChildren: QueryList<NgxDropzonePreviewComponent>;
 
   get _hasPreviews(): boolean {
     return !!this._previewChildren.length;
@@ -25,11 +33,8 @@ export class NgxDropzoneComponent {
   /** A template reference to the native file input element. */
   @ViewChild('fileInput') _fileInput: ElementRef;
 
-  /** Emitted when any files were added. */
-  @Output() readonly filesAdded = new EventEmitter<File[]>();
-
-  /** Emitted when any files were rejected. */
-  @Output() readonly filesRejected = new EventEmitter<File[]>();
+  /** Emitted when any files were added or rejected. */
+  @Output() readonly change = new EventEmitter<NgxDropzoneChangeEvent>();
 
   /** Set the accepted file types. Defaults to '*'. */
   @Input() accept = '*';
@@ -47,7 +52,7 @@ export class NgxDropzoneComponent {
       this._isHovered = false;
     }
   }
-  protected _disabled = false;
+  private _disabled = false;
 
   /** Allow the selection of multiple files. */
   @Input()
@@ -57,7 +62,7 @@ export class NgxDropzoneComponent {
   set multiple(value: boolean) {
     this._multiple = coerceBooleanProperty(value);
   }
-  protected _multiple = true;
+  private _multiple = true;
 
   /** Set the maximum size a single file may have. */
   @Input()
@@ -67,7 +72,18 @@ export class NgxDropzoneComponent {
   set maxFileSize(value: number) {
     this._maxFileSize = coerceNumberProperty(value);
   }
-  protected _maxFileSize: number = undefined;
+  private _maxFileSize: number = undefined;
+
+  /** Allow the dropzone container to expand vertically. */
+  @Input()
+  @HostBinding('class.expandable')
+  get expandable(): boolean {
+    return this._expandable;
+  }
+  set expandable(value: boolean) {
+    this._expandable = coerceBooleanProperty(value);
+  }
+  private _expandable: boolean = false;
 
   @HostBinding('class.ngx-dz-hovered')
   _isHovered = false;
@@ -115,13 +131,11 @@ export class NgxDropzoneComponent {
     const result: FileSelectResult =
       this.service.parseFileList(files, this.accept, this.maxFileSize, this.multiple);
 
-    if (result.addedFiles.length) {
-      this.filesAdded.next(result.addedFiles);
-    }
-
-    if (result.rejectedFiles.length) {
-      this.filesRejected.next(result.rejectedFiles);
-    }
+    this.change.next({
+      addedFiles: result.addedFiles,
+      rejectedFiles: result.rejectedFiles,
+      source: this
+    });
   }
 
   private preventDefault(event: DragEvent) {

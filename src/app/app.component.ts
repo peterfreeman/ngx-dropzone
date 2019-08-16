@@ -9,12 +9,12 @@ export class AppComponent {
 
 	files: File[] = [];
 
-	onFilesAdded(event: File[]) {
+	onFilesAdded(event) {
 		console.log(event);
-		this.files.push(...event);
+		this.files.push(...event.addedFiles);
 	}
 
-	onFilesRejected(event: File[]) {
+	onFilesRejected(event) {
 		console.log(event);
 	}
 

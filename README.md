@@ -48,15 +48,17 @@ export class AppModule { }
 - [x] Accept only certain file types
 - [x] Set a max file size
 - [x] FilesChanged, FilesAdded, FilesRejected, FilesRemoved events
-- [ ] Support reactive forms (and ngModel?)
+- [x] Support reactive forms (and ngModel?)
 - [x] Image, Video and default preview components
 - [x] Allow inheritance for custom preview components (Comp inheritance OR mixins ?) (http://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/)
 - [ ] Allow tab-selecting previews
 - [x] Allow removing files
 - [x] Disabled property
 - [x] public method to show file selector
-- [ ] Orientation Property to either expand dz container or scroll horizontally
+- [x] Orientation Property to either expand dz container or scroll horizontally
 - [ ] Add keyboard interaction
+
+=> Common Directive for previews, use for tab/focus and keyboard events.
 
 ## Licence
 

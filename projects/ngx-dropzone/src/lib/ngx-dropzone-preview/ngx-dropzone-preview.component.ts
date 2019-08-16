@@ -45,6 +45,7 @@ export class NgxDropzonePreviewComponent {
 			justify-content: center;
 			align-items: center;
 			padding: 0 20px;
+			margin: 10px;
 			border-radius: 5px;
 			position: relative;
 		`;

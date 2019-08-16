@@ -60,7 +60,7 @@ export class NgxDropzoneService {
 
 			if (!multiple && this.addedFiles.length >= 1) {
 				// Always emit the latest file if multi-selection is disabled.
-				this.addedFiles = [file];
+				this.rejectedFiles.push(file);
 				continue;
 			}
 

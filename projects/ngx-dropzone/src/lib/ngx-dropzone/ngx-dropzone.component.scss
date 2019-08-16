@@ -22,6 +22,16 @@ $dz-border: #717386;
 		pointer-events: none;
 	}
 
+	/** The default scroll-to-side styles **/
+	overflow-x: auto;
+
+	&.expandable {
+		overflow: hidden;
+		height: unset;
+		min-height: 180px;
+		flex-wrap: wrap;
+	}
+
 	::ng-deep ngx-dropzone-label {
 		text-align: center;
 		z-index: 10;
