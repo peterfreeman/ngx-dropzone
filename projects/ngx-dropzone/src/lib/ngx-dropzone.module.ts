@@ -6,7 +6,6 @@ import { NgxDropzoneComponent } from './ngx-dropzone/ngx-dropzone.component';
 import { NgxDropzoneImagePreviewComponent } from './ngx-dropzone-preview/ngx-dropzone-image-preview/ngx-dropzone-image-preview.component';
 import { NgxDropzoneRemoveBadgeComponent } from './ngx-dropzone-preview/ngx-dropzone-remove-badge/ngx-dropzone-remove-badge.component';
 import { NgxDropzoneVideoPreviewComponent } from './ngx-dropzone-preview/ngx-dropzone-video-preview/ngx-dropzone-video-preview.component';
-import { NgxDropzonePreviewDirective } from './ngx-dropzone-preview/ngx-dropzone-preview.directive';
 
 @NgModule({
 	imports: [
@@ -19,7 +18,6 @@ import { NgxDropzonePreviewDirective } from './ngx-dropzone-preview/ngx-dropzone
 		NgxDropzoneImagePreviewComponent,
 		NgxDropzoneRemoveBadgeComponent,
 		NgxDropzoneVideoPreviewComponent,
-		NgxDropzonePreviewDirective,
 	],
 	exports: [
 		NgxDropzoneComponent,
@@ -27,7 +25,6 @@ import { NgxDropzonePreviewDirective } from './ngx-dropzone-preview/ngx-dropzone
 		NgxDropzonePreviewComponent,
 		NgxDropzoneImagePreviewComponent,
 		NgxDropzoneRemoveBadgeComponent,
-		NgxDropzonePreviewDirective,
 		NgxDropzoneVideoPreviewComponent,
 	]
 })

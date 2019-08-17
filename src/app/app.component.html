@@ -29,7 +29,7 @@ Default
 	(filesRejected)="onFilesRejected($event)">
 	<ngx-dropzone-label>
 		<div>
-			<h2>My custom dropzone</h2>
+			<h2>My custom dropzone I</h2>
 		</div>
 	</ngx-dropzone-label>
 	<p>P-Element</p>
@@ -43,10 +43,22 @@ Default
 	(filesRejected)="onFilesRejected($event)">
 	<ngx-dropzone-label>
 		<div>
-			<h2>My custom dropzone</h2>
+			<h2>My custom dropzone II</h2>
 		</div>
 	</ngx-dropzone-label>
-	<ngx-dropzone-video-preview *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+	<ngx-dropzone-video-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true"
+		(removed)="onRemove(f)">
 		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
 	</ngx-dropzone-video-preview>
+</div>
+
+<div class="custom-dropzone" ngx-dropzone (change)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)">
+	<ngx-dropzone-label>
+		<div>
+			<h2>My custom dropzone III</h2>
+		</div>
+	</ngx-dropzone-label>
+	<ngx-dropzone-preview *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+	</ngx-dropzone-preview>
 </div>

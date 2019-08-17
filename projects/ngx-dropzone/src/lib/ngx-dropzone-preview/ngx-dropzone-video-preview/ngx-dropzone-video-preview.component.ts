@@ -11,7 +11,13 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
     <ngx-dropzone-remove-badge *ngIf="removable" (click)="_remove($event)">
     </ngx-dropzone-remove-badge>
 	`,
-  styleUrls: ['./ngx-dropzone-video-preview.component.scss']
+  styleUrls: ['./ngx-dropzone-video-preview.component.scss'],
+  providers: [
+    {
+      provide: NgxDropzonePreviewComponent,
+      useExisting: NgxDropzoneVideoPreviewComponent
+    }
+  ]
 })
 export class NgxDropzoneVideoPreviewComponent extends NgxDropzonePreviewComponent implements OnInit, OnDestroy {
 

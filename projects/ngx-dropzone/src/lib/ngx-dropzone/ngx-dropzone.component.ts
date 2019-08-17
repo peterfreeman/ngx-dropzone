@@ -2,7 +2,6 @@ import { Component, OnInit, EventEmitter, Output, Input, ViewChild, ContentChild
 import { NgxDropzoneService, FileSelectResult } from '../ngx-dropzone.service';
 import { coerceBooleanProperty, coerceNumberProperty } from '../helpers';
 import { NgxDropzonePreviewComponent } from '../ngx-dropzone-preview/ngx-dropzone-preview.component';
-import { NgxDropzonePreviewDirective } from '../ngx-dropzone-preview/ngx-dropzone-preview.directive';
 
 export interface NgxDropzoneChangeEvent {
   source: NgxDropzoneComponent;
@@ -23,7 +22,7 @@ export class NgxDropzoneComponent {
   ) { }
 
   /** A list of the content-projected preview children. */
-  @ContentChildren(NgxDropzonePreviewComponent)
+  @ContentChildren(NgxDropzonePreviewComponent, { descendants: true })
   _previewChildren: QueryList<NgxDropzonePreviewComponent>;
 
   get _hasPreviews(): boolean {
