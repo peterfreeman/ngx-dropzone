@@ -55,8 +55,8 @@ export class NgxDropzonePreviewComponent {
 	get hostStyle(): SafeStyle {
 		const styles = `
 			display: flex;
-			height: 150px;
-			min-height: 150px;
+			height: 140px;
+			min-height: 140px;
 			min-width: 180px;
 			max-width: 180px;
 			justify-content: center;
