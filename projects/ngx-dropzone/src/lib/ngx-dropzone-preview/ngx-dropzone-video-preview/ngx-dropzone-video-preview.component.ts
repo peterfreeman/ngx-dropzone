@@ -27,7 +27,7 @@ export class NgxDropzoneVideoPreviewComponent extends NgxDropzonePreviewComponen
     super(sanitizer);
   }
 
-  /** The image data source. */
+  /** The video data source. */
   sanitizedVideoSrc: SafeUrl;
 
   private videoSrc: string;
@@ -41,8 +41,6 @@ export class NgxDropzoneVideoPreviewComponent extends NgxDropzonePreviewComponen
     /**
      * We sanitize the URL here to enable the preview.
      * Please note that this could cause security issues!
-     *
-     * TODO(peterfreeman): Every video executes a GET request which fails. Fix this!
      **/
     this.videoSrc = URL.createObjectURL(this.file);
     this.sanitizedVideoSrc = this.sanitizer.bypassSecurityTrustUrl(this.videoSrc);

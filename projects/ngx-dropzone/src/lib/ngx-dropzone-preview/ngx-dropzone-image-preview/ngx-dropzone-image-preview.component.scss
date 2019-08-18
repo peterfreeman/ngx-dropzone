@@ -4,7 +4,12 @@
 	max-width: unset !important;
 	padding: 0 !important;
 
-	&:hover {
+	&:hover,
+	&:focus {
+		img {
+			opacity: 0.7;
+		}
+
 		ngx-dropzone-remove-badge {
 			opacity: 1;
 		}

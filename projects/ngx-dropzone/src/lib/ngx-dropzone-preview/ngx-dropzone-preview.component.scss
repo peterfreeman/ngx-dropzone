@@ -2,8 +2,10 @@
 :host() {
 	background-image: linear-gradient(to top, #ededed, #efefef, #f1f1f1, #f4f4f4, #f6f6f6);
 
-	&:hover {
-		background-image: linear-gradient(to top, #e6e6e6, #ededed, #efefef, #f1f1f1, #f4f4f4);
+	&:hover,
+	&:focus {
+		background-image: linear-gradient(to top, #e3e3e3, #ebeaea, #e8e7e7, #ebeaea, #f4f4f4);
+		outline: 0;
 
 		ngx-dropzone-remove-badge {
 			opacity: 1;

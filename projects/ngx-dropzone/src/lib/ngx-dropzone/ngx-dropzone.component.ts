@@ -91,7 +91,7 @@ export class NgxDropzoneComponent {
   @HostListener('click')
   showFileSelector() {
     if (!this.disabled) {
-      this._fileInput.nativeElement.click();
+      (this._fileInput.nativeElement as HTMLInputElement).click();
     }
   }
 

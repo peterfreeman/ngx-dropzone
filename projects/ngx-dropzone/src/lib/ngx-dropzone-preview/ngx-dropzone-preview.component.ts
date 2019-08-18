@@ -1,6 +1,11 @@
-import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding, HostListener } from '@angular/core';
 import { coerceBooleanProperty } from '../helpers';
 import { SafeStyle, DomSanitizer } from '@angular/platform-browser';
+
+enum KEY_CODE {
+	BACKSPACE = 8,
+	DELETE = 46
+}
 
 @Component({
 	selector: 'ngx-dropzone-preview',
@@ -33,6 +38,18 @@ export class NgxDropzonePreviewComponent {
 	/** Emitted when the element should be removed. */
 	@Output() readonly removed = new EventEmitter<File>();
 
+	@HostListener('keyup', ['$event'])
+	keyEvent(event: KeyboardEvent) {
+		switch (event.keyCode) {
+			case KEY_CODE.BACKSPACE:
+			case KEY_CODE.DELETE:
+				this.remove();
+				break;
+			default:
+				break;
+		}
+	}
+
 	/** We use the HostBinding to pass these common styles to child components. */
 	@HostBinding('style')
 	get hostStyle(): SafeStyle {
@@ -53,7 +70,8 @@ export class NgxDropzonePreviewComponent {
 		return this.sanitizer.bypassSecurityTrustStyle(styles);
 	}
 
-	// TODO: add keyboard events
+	/** Make the preview item focusable using the tab key. */
+	@HostBinding('tabindex') tabIndex = 0;
 
 	/** Remove method to be used from the template. */
 	_remove(event) {
@@ -63,7 +81,9 @@ export class NgxDropzonePreviewComponent {
 
 	/** Remove the preview item (use from component code). */
 	remove() {
-		this.removed.next(this.file);
+		if (this._removable) {
+			this.removed.next(this.file);
+		}
 	}
 
 	protected async readFile(): Promise<string | ArrayBuffer> {
