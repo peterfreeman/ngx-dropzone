@@ -1,0 +1,40 @@
+$dz-bg: #fff;
+$dz-border: #717386;
+
+:host() {
+	display: flex;
+	align-items: center;
+	height: 180px;
+	cursor: pointer;
+	background: $dz-bg;
+	color: $dz-border;
+	border: 2px dashed $dz-border;
+	border-radius: 5px;
+	font-size: 16px;
+
+	&.ngx-dz-hovered {
+		border-style: solid;
+	}
+
+	&.ngx-dz-disabled {
+		opacity: 0.5;
+		cursor: no-drop;
+		pointer-events: none;
+	}
+
+	/** The default scroll-to-side styles **/
+	overflow-x: auto;
+
+	&.expandable {
+		overflow: hidden;
+		height: unset;
+		min-height: 180px;
+		flex-wrap: wrap;
+	}
+
+	::ng-deep ngx-dropzone-label {
+		text-align: center;
+		z-index: 10;
+		margin: 10px auto;
+	}
+}

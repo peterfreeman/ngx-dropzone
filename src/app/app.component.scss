@@ -1,16 +1,17 @@
 ngx-dropzone {
   margin: 20px;
+}
 
-  &.custom-dropzone {
-    height: 250px;
-    background: #333;
-    color: #fff;
-    border: 5px dashed rgb(235, 79, 79);
-    border-radius: 5px;
-    font-size: 20px;
+.custom-dropzone {
+	height: 250px;
+	background: #333;
+	color: #fff;
+	border: 5px dashed rgb(235, 79, 79);
+	border-radius: 5px;
+	font-size: 20px;
 
-    &.hovered {
-      border-style: solid;
-    }
-  }
+	&.ngx-dz-hovered {
+		color: #fff;
+		border: 5px solid rgb(235, 79, 79);
+	}
 }

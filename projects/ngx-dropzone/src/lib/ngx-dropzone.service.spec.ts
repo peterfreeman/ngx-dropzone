@@ -44,65 +44,39 @@ describe('NgxDropzoneService', () => {
     let fileList = new FileList();
     getRandomFileTypes().forEach(f => fileList.add(f));
 
-    service.parseFileList(fileList, '*', null, true, true, false).then(result => {
-      console.log('should return all files in the default configuration', result);
-      expect(result.addedFiles.length).toEqual(fileList.length);
-      expect(result.rejectedFiles.length).toEqual(0);
-    });
+    const result = service.parseFileList(fileList, '*', null, true);
+    console.log('should return all files in the default configuration', result);
+    expect(result.addedFiles.length).toEqual(fileList.length);
+    expect(result.rejectedFiles.length).toEqual(0);
   }));
 
   it('should filter for accepted types', inject([NgxDropzoneService], (service: NgxDropzoneService) => {
     let fileList = new FileList();
     getRandomFileTypes().forEach(f => fileList.add(f));
 
-    service.parseFileList(fileList, 'image/*', null, true, true, false).then(result => {
-      console.log('should filter for accepted types', result);
-      expect(result.addedFiles.length).toEqual(2);
-      expect(result.rejectedFiles.length).toEqual(3);
-    });
+    const result = service.parseFileList(fileList, 'image/*', null, true);
+    console.log('should filter for accepted types', result);
+    expect(result.addedFiles.length).toEqual(2);
+    expect(result.rejectedFiles.length).toEqual(3);
   }));
 
   it('should filter for maximum file size', inject([NgxDropzoneService], (service: NgxDropzoneService) => {
     let fileList = new FileList();
     getRandomFileTypes().forEach(f => fileList.add(f));
 
-    service.parseFileList(fileList, '*', 50, true, true, false).then(result => {
-      console.log('should filter for maximum file size', result);
-      expect(result.addedFiles.length).toEqual(3);
-      expect(result.rejectedFiles.length).toEqual(2);
-    });
+    const result = service.parseFileList(fileList, '*', 50, true);
+    console.log('should filter for maximum file size', result);
+    expect(result.addedFiles.length).toEqual(3);
+    expect(result.rejectedFiles.length).toEqual(2);
   }));
 
   it('should handle single-selection mode', inject([NgxDropzoneService], (service: NgxDropzoneService) => {
     let fileList = new FileList();
     getRandomFileTypes().forEach(f => fileList.add(f));
 
-    service.parseFileList(fileList, '*', null, false, true, false).then(result => {
-      console.log('should handle single-selection mode', result);
-      expect(result.addedFiles.length).toEqual(1);
-      expect(result.addedFiles[0].name).toEqual('myFile.txt');
-    });
-  }));
-
-  it('should consider file preservation', inject([NgxDropzoneService], (service: NgxDropzoneService) => {
-    let fileList = new FileList();
-    getRandomFileTypes().forEach(f => fileList.add(f));
-
-    service.parseFileList(fileList, '*', null, true, true, false).then(firstResult => {
-      service.parseFileList(fileList, '*', null, true, true, false).then(secondResult => {
-        console.log('should consider file preservation (2)', secondResult);
-        expect(secondResult.addedFiles.length).toEqual(2 * fileList.length);
-      });
-    });
-  }));
-
-  it('should create previews', inject([NgxDropzoneService], (service: NgxDropzoneService) => {
-    let fileList = new FileList();
-    getRandomFileTypes().forEach(f => fileList.add(f));
-
-    service.parseFileList(fileList, '*', null, false, true, true).then(result => {
-      console.log('should create previews', result);
-      expect(service.previews.length).toEqual(result.addedFiles.length);
-    });
+    const result = service.parseFileList(fileList, '*', null, false);
+    console.log('should handle single-selection mode', result);
+    expect(result.addedFiles.length).toEqual(1);
+    expect(result.addedFiles[0].name).toEqual('myFile.mp4');
   }));
 });

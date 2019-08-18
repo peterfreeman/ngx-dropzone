@@ -1,146 +1,77 @@
 import { Injectable } from '@angular/core';
 
-export interface FilePreview {
-  data: string | ArrayBuffer;
-  filename: string;
-}
-
 export interface FileSelectResult {
-  addedFiles: File[];
-  rejectedFiles: File[];
+
+	/** The added files, emitted in the filesAdded event. */
+	addedFiles: File[];
+
+	/** The rejected files, emitted in the filesRejected event. */
+	rejectedFiles: File[];
 }
 
 /**
- * UPDATE 04.04.2019:
- * Refactored to use service class to handle any
- * logic on the dropped files to allow for easier
- * unit tests and separation of concerns.
+ * This service contains the filtering logic to be applied to
+ * any dropped or selected file. If a file matches all criteria
+ * like maximum size or accept type, it will be emitted in the
+ * filesAdded event, otherwise in the filesRejected event.
  */
 @Injectable()
 export class NgxDropzoneService {
 
-  constructor() { }
+	private addedFiles: File[] = [];
+	private rejectedFiles: File[] = [];
 
-  private fileCache: File[] = [];
-  private rejectedFiles: File[] = [];
-  previews: FilePreview[] = [];
+	parseFileList(files: FileList, accept: string, maxFileSize: number, multiple: boolean): FileSelectResult {
 
-  reset() {
-    this.fileCache = [];
-    this.rejectedFiles = [];
-    this.previews = [];
-  }
+		this.addedFiles = [];
+		this.rejectedFiles = [];
 
-  async parseFileList(files: FileList, accept: string, maxFileSize: number, multiple: boolean,
-    preserveFiles: boolean, showPreviews: boolean): Promise<FileSelectResult> {
+		const hasAcceptFilter = accept !== '*';
+		const hasGenericAcceptFilter = accept.endsWith('/*');
+		const acceptedGenericType = accept.split('/')[0];
 
-    /**
-     * UPDATE 27.01.2019:
-     * Refactored the filter algorithm into one filter() method to gain
-     * better performance by iterating only once.
-     * See issue #1.
-     *
-     * UPDATE 09.03.2019:
-     * Refactored to one single loop and fixed bug where disabled multiple
-     * selection might return invalid (unfiltered) files.
-     * Added image preview option.
-     *
-     * UPDATE 12.03.2019:
-     * Refactored to use fileCache and emit all dropped files
-     * since the last reset if [preserveFiles] is true.
-     */
-    const hasFiletypeFilter = accept !== '*';
+		for (let i = 0; i < files.length; i++) {
+			const file = files.item(i);
 
-    /**
-     * UPDATE 12.03.2019:
-     * Added option to preserve preview images.
-     */
-    if (!preserveFiles) {
-      this.fileCache = [];
-      this.rejectedFiles = [];
-      this.previews = [];
-    }
+			if (hasAcceptFilter) {
+				if (hasGenericAcceptFilter) {
+					// If a generic file type is provided, we check for a match.
+					const providedGenericType = file.type.split('/')[0];
 
-    for (let i = 0; i < files.length; i++) {
-      const file = files.item(i);
+					if (acceptedGenericType !== providedGenericType) {
+						this.rejectedFiles.push(file);
+						continue;
+					}
+				} else {
+					// Else an exact match is required.
+					const hasFileType = !!file.type;
 
-      if (hasFiletypeFilter) {
-        if (accept.endsWith('/*')) {
-          // If a generic file type is provided, we check for a match.
-          if (accept.split('/')[0] !== file.type.split('/')[0]) {
-            this.rejectedFiles.push(file);
-            continue;
-          }
-        } else {
-          // Else an exact match is required.
-          if (!accept.includes(file.type)) {
-            this.rejectedFiles.push(file);
-            continue;
-          }
-        }
-      }
+					if (!accept.includes(file.type) || !hasFileType) {
+						this.rejectedFiles.push(file);
+						continue;
+					}
+				}
+			}
 
-      if (maxFileSize && file.size > maxFileSize) {
-        this.rejectedFiles.push(file);
-        continue;
-      }
+			if (maxFileSize && file.size > maxFileSize) {
+				this.rejectedFiles.push(file);
+				continue;
+			}
 
-      if (!multiple && this.fileCache.length >= 1) {
-        if (!preserveFiles) {
-          // Always emit the latest file if multi-selection and preservation are disabled.
-          this.fileCache = [file];
-        } else {
-          continue;
-        }
-      }
+			if (!multiple && this.addedFiles.length >= 1) {
+				// Always emit the latest file if multi-selection is disabled.
+				this.rejectedFiles.push(file);
+				continue;
+			}
 
-      if (showPreviews) {
-        if (file.type.startsWith('image')) {
-          const preview = await this.readFile(file);
+			this.addedFiles.push(file);
+		}
 
-          if (preview) {
-            this.previews.push(preview);
-          }
-        } else {
-          const preview: FilePreview = {
-            data: null,
-            filename: file.name
-          };
+		const result: FileSelectResult = {
+			addedFiles: this.addedFiles,
+			rejectedFiles: this.rejectedFiles
+		};
 
-          this.previews.push(preview);
-        }
-      }
-
-      this.fileCache.push(file);
-    }
-
-    const result: FileSelectResult = {
-      addedFiles: this.fileCache,
-      rejectedFiles: this.rejectedFiles
-    };
-
-    return result;
-  }
-
-  private async readFile(file: File): Promise<FilePreview> {
-    return new Promise<FilePreview>((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = e => {
-        const preview: FilePreview = {
-          data: (e.target as FileReader).result,
-          filename: file.name
-        };
-
-        return resolve(preview);
-      };
-
-      reader.onerror = e => {
-        console.error(`FileReader failed on file ${file.name}. No preview image created.`);
-        return reject(null);
-      }
-
-      reader.readAsDataURL(file);
-    })
-  }
+		return result;
+	}
 }
