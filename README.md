@@ -88,7 +88,7 @@ This component has the following Input properties:
 * `[accept]`: Set the accepted file types (as for a native file element). Defaults to `'*'`.
 * `[maxFileSize]`: Set the maximum size a single file may have. Defaults to `undefined`.
 * `[disabled]`: Disable any user interaction with the component. Defaults to `false`.
-* `[expandable]`: Allow the dropzone container to expand vertically as the number of previewed files rises. Defaults to `false` which means that it will allow for horizontal scrolling.
+* `[expandable]`: Allow the dropzone container to expand vertically as the number of previewed files increases. Defaults to `false` which means that it will allow for horizontal scrolling.
 
 It has the following Output event:
 
