@@ -26,31 +26,12 @@ export class NgxDropzoneService {
 		this.addedFiles = [];
 		this.rejectedFiles = [];
 
-		const hasAcceptFilter = accept !== '*';
-		const hasGenericAcceptFilter = accept.endsWith('/*');
-		const acceptedGenericType = accept.split('/')[0];
-
 		for (let i = 0; i < files.length; i++) {
 			const file = files.item(i);
 
-			if (hasAcceptFilter) {
-				if (hasGenericAcceptFilter) {
-					// If a generic file type is provided, we check for a match.
-					const providedGenericType = file.type.split('/')[0];
-
-					if (acceptedGenericType !== providedGenericType) {
-						this.rejectedFiles.push(file);
-						continue;
-					}
-				} else {
-					// Else an exact match is required.
-					const hasFileType = !!file.type;
-
-					if (!accept.includes(file.type) || !hasFileType) {
-						this.rejectedFiles.push(file);
-						continue;
-					}
-				}
+			if (!NgxDropzoneService.isAccepted(file, accept)) {
+			  this.rejectedFiles.push(file);
+			  continue;
 			}
 
 			if (maxFileSize && file.size > maxFileSize) {
@@ -74,4 +55,28 @@ export class NgxDropzoneService {
 
 		return result;
 	}
+
+  private static isAccepted(file: File, accept: string): boolean {
+    if (accept === '*') {
+      return true;
+    }
+
+    const acceptFiletypes = accept.split(',').map(it => it.toLowerCase().trim());
+    const filetype = file.type.toLowerCase();
+    const filename = file.name.toLowerCase();
+    const matchedFileType = acceptFiletypes.find(acceptFiletype => {
+      // check for wildcard mimetype (e.g. image/*)
+      if (acceptFiletype.endsWith('/*')) {
+        return filetype.split('/')[0] === acceptFiletype.split('/')[0];
+      }
+      // check for file extension (e.g. .csv)
+      if (acceptFiletype.startsWith(".")) {
+        return filename.endsWith(acceptFiletype);
+      }
+      // check for exact mimetype match (e.g. image/jpeg)
+      return acceptFiletype == filetype;
+    });
+
+    return matchedFileType !== undefined;
+  }
 }
