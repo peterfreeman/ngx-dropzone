@@ -23,11 +23,11 @@ class MockFileList implements FileList {
 // Helper function to create a list of files
 function getRandomFileTypes(): File[] {
   return [
-    new File(['RandomStringContentToSimulateFileSize'], 'myFile.txt', {type: 'text/plain'}),
-    new File(['RandomStringContentToSimulateBiggerFileSizeForUnitTest'], 'myFile.csv', {type: 'text/csv'}),
-    new File(['RandomStringContentToSimulateFileSize'], 'myFile.jpg', {type: 'image/jpeg'}),
-    new File(['RandomStringContentToSimulateFileSize'], 'myFile.png', {type: 'image/png'}),
-    new File(['RandomStringContentToSimulateBiggerFileSizeForUnitTest'], 'myFile.mp4', {type: 'video/mp4'}),
+    new File(['RandomStringContentToSimulateFileSize'], 'myFile.txt', { type: 'text/plain' }),
+    new File(['RandomStringContentToSimulateBiggerFileSizeForUnitTest'], 'myFile.csv', { type: 'text/csv' }),
+    new File(['RandomStringContentToSimulateFileSize'], 'myFile.jpg', { type: 'image/jpeg' }),
+    new File(['RandomStringContentToSimulateFileSize'], 'myFile.png', { type: 'image/png' }),
+    new File(['RandomStringContentToSimulateBiggerFileSizeForUnitTest'], 'myFile.mp4', { type: 'video/mp4' }),
   ]
 }
 
