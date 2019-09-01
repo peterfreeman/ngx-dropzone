@@ -119,11 +119,15 @@ It has the following Output event:
 
 * `(removed)`: Emitted when the element should be removed (either by clicking the remove badge or by pressing backspace/delete keys). Returns the file from the Input property.
 
-The `ngx-dropzone-image-preview` and `ngx-dropzone-video-preview` components inherit from this component but expand the preview functionality to display either images or videos directly in the component. See the wiki on how to implement your own custom preview components.
+The `ngx-dropzone-image-preview` and `ngx-dropzone-video-preview` components inherit from this component but expand the preview functionality to display either images or videos directly in the component. See the [wiki](https://github.com/peterfreeman/ngx-dropzone/wiki/How-to-create-a-custom-preview-component%3F) on how to implement your own custom preview components.
 
 #### ngx-dropzone-remove-badge
 
 This component is used within the previews to remove selected files. You can use it within your own preview component implementation if you like (see the wiki).
+
+## Other
+
+[How to upload a file to a Web API?](https://github.com/peterfreeman/ngx-dropzone/wiki/How-to-upload-a-file-to-a-Web-service-API%3F)
 
 ## Licence
 

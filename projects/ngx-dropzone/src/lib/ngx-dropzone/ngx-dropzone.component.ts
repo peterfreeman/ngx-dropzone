@@ -135,6 +135,9 @@ export class NgxDropzoneComponent {
       rejectedFiles: result.rejectedFiles,
       source: this
     });
+
+    // Reset the native file input element to allow selecting the same file again
+    this._fileInput.nativeElement.value = '';
   }
 
   private preventDefault(event: DragEvent) {
