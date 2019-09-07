@@ -124,20 +124,22 @@ export class NgxDropzoneComponent {
   _onFilesSelected(event) {
     const files: FileList = event.target.files;
     this.handleFileDrop(files);
+
+    // Reset the native file input element to allow selecting the same file again
+    this._fileInput.nativeElement.value = '';
+
+    // fix(#32): Prevent the default event behaviour which caused the change event to emit twice.
+    this.preventDefault(event);
   }
 
   private handleFileDrop(files: FileList) {
-    const result: FileSelectResult =
-      this.service.parseFileList(files, this.accept, this.maxFileSize, this.multiple);
+    const result = this.service.parseFileList(files, this.accept, this.maxFileSize, this.multiple);
 
     this.change.next({
       addedFiles: result.addedFiles,
       rejectedFiles: result.rejectedFiles,
       source: this
     });
-
-    // Reset the native file input element to allow selecting the same file again
-    this._fileInput.nativeElement.value = '';
   }
 
   private preventDefault(event: DragEvent) {

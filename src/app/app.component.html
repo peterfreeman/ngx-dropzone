@@ -3,8 +3,7 @@ Default
 
 <ngx-dropzone #drop (change)="onFilesAdded($event)">
 	<ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
-	<ngx-dropzone-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [removable]="true"
-		(removed)="onRemove(f)">
+	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
 		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
 	</ngx-dropzone-preview>
 </ngx-dropzone>

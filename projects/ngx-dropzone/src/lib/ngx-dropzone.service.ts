@@ -29,9 +29,9 @@ export class NgxDropzoneService {
 		for (let i = 0; i < files.length; i++) {
 			const file = files.item(i);
 
-			if (!NgxDropzoneService.isAccepted(file, accept)) {
-			  this.rejectedFiles.push(file);
-			  continue;
+			if (!this.isAccepted(file, accept)) {
+				this.rejectedFiles.push(file);
+				continue;
 			}
 
 			if (maxFileSize && file.size > maxFileSize) {
@@ -56,27 +56,30 @@ export class NgxDropzoneService {
 		return result;
 	}
 
-  private static isAccepted(file: File, accept: string): boolean {
-    if (accept === '*') {
-      return true;
-    }
+	private isAccepted(file: File, accept: string): boolean {
+		if (accept === '*') {
+			return true;
+		}
 
-    const acceptFiletypes = accept.split(',').map(it => it.toLowerCase().trim());
-    const filetype = file.type.toLowerCase();
-    const filename = file.name.toLowerCase();
-    const matchedFileType = acceptFiletypes.find(acceptFiletype => {
-      // check for wildcard mimetype (e.g. image/*)
-      if (acceptFiletype.endsWith('/*')) {
-        return filetype.split('/')[0] === acceptFiletype.split('/')[0];
-      }
-      // check for file extension (e.g. .csv)
-      if (acceptFiletype.startsWith(".")) {
-        return filename.endsWith(acceptFiletype);
-      }
-      // check for exact mimetype match (e.g. image/jpeg)
-      return acceptFiletype == filetype;
-    });
+		const acceptFiletypes = accept.split(',').map(it => it.toLowerCase().trim());
+		const filetype = file.type.toLowerCase();
+		const filename = file.name.toLowerCase();
 
-    return matchedFileType !== undefined;
-  }
+		const matchedFileType = acceptFiletypes.find(acceptFiletype => {
+			// check for wildcard mimetype (e.g. image/*)
+			if (acceptFiletype.endsWith('/*')) {
+				return filetype.split('/')[0] === acceptFiletype.split('/')[0];
+			}
+
+			// check for file extension (e.g. .csv)
+			if (acceptFiletype.startsWith(".")) {
+				return filename.endsWith(acceptFiletype);
+			}
+
+			// check for exact mimetype match (e.g. image/jpeg)
+			return acceptFiletype == filetype;
+		});
+
+		return !!matchedFileType;
+	}
 }
