@@ -91,17 +91,16 @@ export class NgxDropzonePreviewComponent {
 			const reader = new FileReader();
 
 			reader.onload = e => {
-				return resolve((e.target as FileReader).result);
+				resolve((e.target as FileReader).result);
 			};
 
 			reader.onerror = e => {
 				console.error(`FileReader failed on file ${this.file.name}.`);
-				return reject(null);
+				reject(e);
 			};
 
 			if (!this.file) {
-				console.error('No file to read. Please provide a file using the [file] Input property.');
-				return reject(null);
+				return reject('No file to read. Please provide a file using the [file] Input property.');
 			}
 
 			reader.readAsDataURL(this.file);
