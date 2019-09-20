@@ -3,7 +3,7 @@ import { NgxDropzoneService } from './ngx-dropzone.service';
 
 // Mockup FileList class for unit tests
 class MockFileList implements FileList {
-  constructor(private files: File[]) {}
+  constructor(private files: File[]) { }
 
   get length(): number {
     return this.files.length;
@@ -32,7 +32,7 @@ function getRandomFileTypes(): File[] {
 }
 
 function fileWithType(type: string): File {
-  return new File(['anyFileBits'], 'anyFilename', {type});
+  return new File(['anyFileBits'], 'anyFilename', { type });
 }
 
 function fileWithName(name: string): File {

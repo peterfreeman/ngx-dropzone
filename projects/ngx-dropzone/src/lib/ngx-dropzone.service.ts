@@ -6,57 +6,62 @@ export interface FileSelectResult {
 	addedFiles: File[];
 
 	/** The rejected files, emitted in the filesRejected event. */
-	rejectedFiles: File[];
+	rejectedFiles: RejectedFile[];
 }
+
+export interface RejectedFile extends File {
+
+	/** The reason the file was rejected. */
+	reason?: RejectReason;
+}
+
+export type RejectReason = 'type' | 'size' | 'no_multiple';
 
 /**
  * This service contains the filtering logic to be applied to
  * any dropped or selected file. If a file matches all criteria
  * like maximum size or accept type, it will be emitted in the
- * filesAdded event, otherwise in the filesRejected event.
+ * addedFiles array, otherwise in the rejectedFiles array.
  */
 @Injectable()
 export class NgxDropzoneService {
 
-	private addedFiles: File[] = [];
-	private rejectedFiles: File[] = [];
-
 	parseFileList(files: FileList, accept: string, maxFileSize: number, multiple: boolean): FileSelectResult {
 
-		this.addedFiles = [];
-		this.rejectedFiles = [];
+		const addedFiles: File[] = [];
+		const rejectedFiles: RejectedFile[] = [];
 
 		for (let i = 0; i < files.length; i++) {
 			const file = files.item(i);
 
 			if (!this.isAccepted(file, accept)) {
-				this.rejectedFiles.push(file);
+				this.rejectFile(rejectedFiles, file, 'type');
 				continue;
 			}
 
 			if (maxFileSize && file.size > maxFileSize) {
-				this.rejectedFiles.push(file);
+				this.rejectFile(rejectedFiles, file, 'size');
 				continue;
 			}
 
-			if (!multiple && this.addedFiles.length >= 1) {
-				// Always emit the latest file if multi-selection is disabled.
-				this.rejectedFiles.push(file);
+			if (!multiple && addedFiles.length >= 1) {
+				this.rejectFile(rejectedFiles, file, 'no_multiple');
 				continue;
 			}
 
-			this.addedFiles.push(file);
+			addedFiles.push(file);
 		}
 
 		const result: FileSelectResult = {
-			addedFiles: this.addedFiles,
-			rejectedFiles: this.rejectedFiles
+			addedFiles,
+			rejectedFiles
 		};
 
 		return result;
 	}
 
 	private isAccepted(file: File, accept: string): boolean {
+
 		if (accept === '*') {
 			return true;
 		}
@@ -66,6 +71,7 @@ export class NgxDropzoneService {
 		const filename = file.name.toLowerCase();
 
 		const matchedFileType = acceptFiletypes.find(acceptFiletype => {
+
 			// check for wildcard mimetype (e.g. image/*)
 			if (acceptFiletype.endsWith('/*')) {
 				return filetype.split('/')[0] === acceptFiletype.split('/')[0];
@@ -81,5 +87,13 @@ export class NgxDropzoneService {
 		});
 
 		return !!matchedFileType;
+	}
+
+	private rejectFile(rejectedFiles: RejectedFile[], file: File, reason: RejectReason) {
+
+		const rejectedFile = file as RejectedFile;
+		rejectedFile.reason = reason;
+
+		rejectedFiles.push(rejectedFile);
 	}
 }
