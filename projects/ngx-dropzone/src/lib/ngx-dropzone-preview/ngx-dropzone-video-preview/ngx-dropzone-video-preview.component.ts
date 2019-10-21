@@ -8,6 +8,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
     <video *ngIf="sanitizedVideoSrc" controls (click)="$event.stopPropagation()">
       <source [src]="sanitizedVideoSrc" />
     </video>
+    <ng-content select="ngx-dropzone-label"></ng-content>
     <ngx-dropzone-remove-badge *ngIf="removable" (click)="_remove($event)">
     </ngx-dropzone-remove-badge>
 	`,
