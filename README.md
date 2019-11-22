@@ -89,6 +89,8 @@ This component has the following Input properties:
 * `[maxFileSize]`: Set the maximum size a single file may have. Defaults to `undefined`.
 * `[disabled]`: Disable any user interaction with the component. Defaults to `false`.
 * `[expandable]`: Allow the dropzone container to expand vertically as the number of previewed files increases. Defaults to `false` which means that it will allow for horizontal scrolling.
+* `[disableClick]`: Prevent the file selector from opening when clicking the dropzone.
+* `[id], [aria-label], [aria-labelledby]`: Forward the accessibility properties to the file input element.
 
 It has the following Output event:
 
