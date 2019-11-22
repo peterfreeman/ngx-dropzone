@@ -84,13 +84,29 @@ export class NgxDropzoneComponent {
   }
   private _expandable: boolean = false;
 
+  /** Open the file selector on click. */
+  @Input()
+  @HostBinding('class.unclickable')
+  get disableClick(): boolean {
+    return this._disableClick;
+  }
+  set disableClick(value: boolean) {
+    this._disableClick = coerceBooleanProperty(value);
+  }
+  private _disableClick = false;
+
+  /** Expose the id, aria-label and aria-labelledby of the native file input for proper accessibility. */
+  @Input() id: string;
+  @Input('aria-label') ariaLabel: string;
+  @Input('aria-labelledby') ariaLabelledby: string;
+
   @HostBinding('class.ngx-dz-hovered')
   _isHovered = false;
 
   /** Show the native OS file explorer to select files. */
   @HostListener('click')
   showFileSelector() {
-    if (!this.disabled) {
+    if (!this.disabled && !this.disableClick) {
       (this._fileInput.nativeElement as HTMLInputElement).click();
     }
   }

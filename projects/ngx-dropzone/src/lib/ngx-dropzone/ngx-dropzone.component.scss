@@ -5,8 +5,8 @@ $dz-border: #717386;
 	display: flex;
 	align-items: center;
 	height: 180px;
-	cursor: pointer;
 	background: $dz-bg;
+	cursor: pointer;
 	color: $dz-border;
 	border: 2px dashed $dz-border;
 	border-radius: 5px;
@@ -32,9 +32,28 @@ $dz-border: #717386;
 		flex-wrap: wrap;
 	}
 
+	&.unclickable {
+		cursor: default;
+	}
+
 	::ng-deep ngx-dropzone-label {
 		text-align: center;
 		z-index: 10;
 		margin: 10px auto;
+	}
+
+	& input {
+		width: 0.1px;
+		height: 0.1px;
+		opacity: 0;
+		overflow: hidden;
+		position: absolute;
+		z-index: -1;
+
+		&:focus + ngx-dropzone-label {
+			outline: -webkit-focus-ring-color auto 5px;
+			/* Fallback for older browsers */
+			outline: 1px dotted #000;
+		}
 	}
 }
