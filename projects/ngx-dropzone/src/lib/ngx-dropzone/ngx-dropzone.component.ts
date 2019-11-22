@@ -38,6 +38,9 @@ export class NgxDropzoneComponent {
   /** Set the accepted file types. Defaults to '*'. */
   @Input() accept = '*';
 
+  /** Set the id attribute on the native input element */
+  @Input() id: string;
+
   /** Disable any user interaction with the component. */
   @Input()
   @HostBinding('class.ngx-dz-disabled')
