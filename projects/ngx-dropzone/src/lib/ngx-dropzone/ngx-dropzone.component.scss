@@ -12,6 +12,22 @@ $dz-border: #717386;
 	border-radius: 5px;
 	font-size: 16px;
 
+  /* Make the input invisible, but still visible to screen readers & targetable with keyboard */
+  & input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+
+    &:focus + ngx-dropzone-label {
+      outline: -webkit-focus-ring-color auto 5px; 
+      /* Fallback for older browsers */
+      outline: 1px dotted #000;
+    }
+  }
+
 	&.ngx-dz-hovered {
 		border-style: solid;
 	}
