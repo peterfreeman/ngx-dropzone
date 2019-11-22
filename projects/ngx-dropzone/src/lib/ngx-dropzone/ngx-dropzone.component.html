@@ -1,4 +1,4 @@
-<input #fileInput type="file" style="display: none;" [multiple]="multiple" [accept]="accept"
+<input #fileInput type="file" [multiple]="multiple" [accept]="accept"
   (change)="_onFilesSelected($event)">
 <ng-content select="ngx-dropzone-label" *ngIf="!_hasPreviews"></ng-content>
 <ng-content select="ngx-dropzone-preview"></ng-content>
