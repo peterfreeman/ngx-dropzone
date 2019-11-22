@@ -1,7 +1,8 @@
 Default
 <ngx-dropzone></ngx-dropzone>
 
-<ngx-dropzone #drop (change)="onFilesAdded($event)">
+<ngx-dropzone #drop [id]="'idtest'" [aria-label]="'al-test'" [aria-labelledby]="'alb-test'"
+	(change)="onFilesAdded($event)">
 	<ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
 	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
 		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
@@ -17,7 +18,7 @@ Default
 	</ngx-dropzone-preview>
 </ngx-dropzone>
 
-<ngx-dropzone (change)="onFilesAdded($event)" [multiple]="false">
+<ngx-dropzone (change)="onFilesAdded($event)" [multiple]="false" [disableClick]="true">
 	<ngx-dropzone-label>Drop it like it's hott!</ngx-dropzone-label>
 	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
 		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
