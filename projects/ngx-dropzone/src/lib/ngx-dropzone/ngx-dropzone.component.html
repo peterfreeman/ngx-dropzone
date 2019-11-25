@@ -1,12 +1,14 @@
 <input
   #fileInput
   type="file"
+  [id]="id"
   [multiple]="multiple"
   [accept]="accept"
   [disabled]="disabled"
-  (change)="_onFilesSelected($event)" [id]="id"
+  (change)="_onFilesSelected($event)"
   [attr.aria-label]="ariaLabel"
   [attr.aria-labelledby]="ariaLabelledby"
+  [attr.aria-describedby]="ariaDescribedBy"
 >
 <ng-content select="ngx-dropzone-label" *ngIf="!_hasPreviews"></ng-content>
 <ng-content select="ngx-dropzone-preview"></ng-content>
