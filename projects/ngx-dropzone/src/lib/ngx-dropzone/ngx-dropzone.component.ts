@@ -95,10 +95,11 @@ export class NgxDropzoneComponent {
   }
   private _disableClick = false;
 
-  /** Expose the id, aria-label and aria-labelledby of the native file input for proper accessibility. */
+  /** Expose the id, aria-label, aria-labelledby and aria-describedby of the native file input for proper accessibility. */
   @Input() id: string;
   @Input('aria-label') ariaLabel: string;
   @Input('aria-labelledby') ariaLabelledby: string;
+  @Input('aria-describedby') ariaDescribedBy: string;
 
   @HostBinding('class.ngx-dz-hovered')
   _isHovered = false;

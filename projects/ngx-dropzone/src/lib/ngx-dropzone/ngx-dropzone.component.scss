@@ -50,10 +50,11 @@ $dz-border: #717386;
 		position: absolute;
 		z-index: -1;
 
-		&:focus + ngx-dropzone-label {
-			outline: -webkit-focus-ring-color auto 5px;
+		&:focus + ::ng-deep ngx-dropzone-label {
 			/* Fallback for older browsers */
 			outline: 1px dotted #000;
+
+			outline: -webkit-focus-ring-color auto 5px;
 		}
 	}
 }
