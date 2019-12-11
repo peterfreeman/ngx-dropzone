@@ -106,10 +106,10 @@ export class NgxDropzoneComponent {
 
   /** Show the native OS file explorer to select files. */
   @HostListener('click')
-  showFileSelector() {
-    if (!this.disabled && !this.disableClick) {
-      (this._fileInput.nativeElement as HTMLInputElement).click();
-    }
+  _onClick() {
+    if (!this.disableClick) {
+      this.showFileSelector();
+    } 
   }
 
   @HostListener('dragover', ['$event'])
@@ -136,6 +136,12 @@ export class NgxDropzoneComponent {
     this.preventDefault(event);
     this._isHovered = false;
     this.handleFileDrop(event.dataTransfer.files);
+  }
+  
+  showFileSelector() {
+    if (!this.disabled) {
+      (this._fileInput.nativeElement as HTMLInputElement).click();
+    }
   }
 
   _onFilesSelected(event) {
