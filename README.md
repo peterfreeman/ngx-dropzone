@@ -86,7 +86,7 @@ This component has the following Input properties:
 
 * `[multiple]`: Allow the selection of multiple files at once. Defaults to `true`.
 * `[accept]`: Set the accepted file types (as for a native file element). Defaults to `'*'`.
-* `[maxFileSize]`: Set the maximum size a single file may have. Defaults to `undefined`.
+* `[maxFileSize]`: Set the maximum size a single file may have, in *bytes*. Defaults to `undefined`.
 * `[disabled]`: Disable any user interaction with the component. Defaults to `false`.
 * `[expandable]`: Allow the dropzone container to expand vertically as the number of previewed files increases. Defaults to `false` which means that it will allow for horizontal scrolling.
 * `[disableClick]`: Prevent the file selector from opening when clicking the dropzone.
