@@ -85,7 +85,7 @@ It will add the classes `ngx-dz-hovered` and `ngx-dz-disabled` to its host eleme
 This component has the following Input properties:
 
 * `[multiple]`: Allow the selection of multiple files at once. Defaults to `true`.
-* `[accept]`: Set the accepted file types (as for a native file element). Defaults to `'*'`.
+* `accept`: Set the accepted file types (as for a native file element). Defaults to `'*'`. Example: `accept="image/jpeg,image/jpg,image/png,image/gif"`
 * `[maxFileSize]`: Set the maximum size a single file may have, in *bytes*. Defaults to `undefined`.
 * `[disabled]`: Disable any user interaction with the component. Defaults to `false`.
 * `[expandable]`: Allow the dropzone container to expand vertically as the number of previewed files increases. Defaults to `false` which means that it will allow for horizontal scrolling.
