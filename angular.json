@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/ngx-dropzone-lib",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -29,6 +30,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -136,7 +143,8 @@
           },
           "configurations": {
             "production": {
-              "project": "projects/ngx-dropzone/ng-package.prod.json"
+              "project": "projects/ngx-dropzone/ng-package.prod.json",
+              "tsConfig": "projects/ngx-dropzone/tsconfig.lib.prod.json"
             }
           }
         },
@@ -163,5 +171,8 @@
       }
     }
   },
-  "defaultProject": "ngx-dropzone-lib"
+  "defaultProject": "ngx-dropzone-lib",
+  "cli": {
+    "analytics": "c20b04b9-d33d-4ede-a143-0f9d7407efd5"
+  }
 }
