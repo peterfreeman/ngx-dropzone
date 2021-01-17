@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
+            "aot": false,
             "outputPath": "dist/ngx-dropzone-lib",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -170,8 +170,5 @@
       }
     }
   },
-  "defaultProject": "ngx-dropzone-lib",
-  "cli": {
-    "analytics": "c20b04b9-d33d-4ede-a143-0f9d7407efd5"
-  }
+  "defaultProject": "ngx-dropzone-lib"
 }
