@@ -30,7 +30,7 @@ export class NgxDropzoneComponent {
   }
 
   /** A template reference to the native file input element. */
-  @ViewChild('fileInput') _fileInput: ElementRef;
+  @ViewChild('fileInput', { static: true }) _fileInput: ElementRef;
 
   /** Emitted when any files were added or rejected. */
   @Output() readonly change = new EventEmitter<NgxDropzoneChangeEvent>();

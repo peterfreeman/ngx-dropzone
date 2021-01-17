@@ -21,6 +21,9 @@
     "type": "git",
     "url": "git+https://github.com/peterfreeman/ngx-dropzone.git"
   },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "bugs": {
     "url": "https://github.com/peterfreeman/ngx-dropzone/issues"
   }
