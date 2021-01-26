@@ -22,8 +22,12 @@ export class NgxDropzonePreviewComponent {
 		protected sanitizer: DomSanitizer
 	) { }
 
+	protected _file: File;
+
 	/** The file to preview. */
-	@Input() file: File;
+	@Input()
+	set file(value: File) { this._file = value; }
+	get file(): File { return this._file; }
 
 	/** Allow the user to remove files. */
 	@Input()
