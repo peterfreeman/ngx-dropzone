@@ -43,8 +43,13 @@ export class NgxDropzoneVideoPreviewComponent extends NgxDropzonePreviewComponen
      * We sanitize the URL here to enable the preview.
      * Please note that this could cause security issues!
      **/
-    this.videoSrc = URL.createObjectURL(this.file);
-    this.sanitizedVideoSrc = this.sanitizer.bypassSecurityTrustUrl(this.videoSrc);
+    if (this.file.isMock) {
+      this.sanitizedVideoSrc = this.file.fileSrc;
+    } else {
+      this.videoSrc = URL.createObjectURL(this.file.file);
+      this.sanitizedVideoSrc = this.sanitizer.bypassSecurityTrustUrl(this.videoSrc);
+    }
+
   }
 
   ngOnDestroy() {

@@ -15,3 +15,11 @@ ngx-dropzone {
 		border: 5px solid rgb(235, 79, 79);
 	}
 }
+.dropzone-label{
+  bottom: 0;
+  background: rgba(255,255,255,0.4);
+    color: #333;
+  padding: 0 ;
+  border-radius: 5px;
+  font-size: 10px;
+}

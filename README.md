@@ -38,21 +38,26 @@ export class AppModule { }
 <ngx-dropzone (change)="onSelect($event)">
 	<ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
 	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
-		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+		<ngx-dropzone-label>{{ f.file.name  }} ({{ f.file.type }})</ngx-dropzone-label>
 	</ngx-dropzone-preview>
 </ngx-dropzone>
 ```
 
 ```js
 // in app.component.ts
-files: File[] = [];
+files: DropZoneFileModel[] = [];
 
-onSelect(event) {
+onFilesAdded(event: any) {
   console.log(event);
-  this.files.push(...event.addedFiles);
+  event.addedFiles.forEach((element: any) => {
+    this.files.push({
+      file: element,
+      isMock: false
+    })
+  });
 }
 
-onRemove(event) {
+onRemove(event: DropZoneFileModel) {
   console.log(event);
   this.files.splice(this.files.indexOf(event), 1);
 }
@@ -62,15 +67,45 @@ You can also use special preview components to preview images or videos:
 
 ```html
 <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f">
-  <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+  <ngx-dropzone-label>{{ f.file.name  }} ({{ f.file.type }})</ngx-dropzone-label>
 </ngx-dropzone-image-preview>
 ```
 
 ```html
 <ngx-dropzone-video-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f">
-  <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+  <ngx-dropzone-label>{{ f.file.name  }} ({{ f.file.type }})</ngx-dropzone-label>
 </ngx-dropzone-video-preview>
 ```
+
+
+
+* prelaod files into the drop-zone
+* if you have for example a set of urls that you want to add them befor drop-zone is loaded ,you can use this method
+```js
+  files: DropZoneFileModel[] = [];
+  ngAfterViewInit() {
+    const url = 'https://fakeimg.pl/440x230/282828/32eddd/?retina=1&text=ngx-dropzone-mock-img';
+    const nameWithType = url.split('/')[url.split('/').length - 1];
+    const name = nameWithType.split('.')[0];
+    const type = nameWithType.split('.')[1] ? nameWithType.split('.')[1].toLowerCase() : 'png';
+    var mockFile: File = {
+      name: name,
+      type: "image/" + type,
+      size: 1024,
+      arrayBuffer: null,
+      lastModified: null,
+      slice: null,
+      stream: null,
+      text: null,
+    };
+    this.files.push({
+      isMock: true,
+      file: mockFile,
+      fileSrc: url
+    })
+  }
+```
+
 
 ## Component documentation
 
@@ -80,7 +115,7 @@ This component is the actual dropzone container. It contains the label and any f
 It has an event listener for file drops and you can also click it to open the native file explorer for selection.
 
 Use it as a stand-alone component `<ngx-dropzone></ngx-dropzone>` or by adding it as an attribute to a custom `div` (`<div class="custom-dropzone" ngx-dropzone></div>`).
-It will add the classes `ngx-dz-hovered` and `ngx-dz-disabled` to its host element if necessary. You could override the styling of these effects if you like to.
+It will add the classes `ngx-dz-hovered` and `ngx-dz-disabled` to it's host element if necessary. You could override the styling of these effects if you like to.
 
 This component has the following Input properties:
 
@@ -96,7 +131,7 @@ It has the following Output event:
 
 * `(change)`: Emitted when any files were added or rejected. It returns a `NgxDropzoneChangeEvent` with the properties `source: NgxDropzoneComponent`, `addedFiles: File[]` and `rejectedFiles: RejectedFile[]`.
 
-The `RejectedFile` extends the native File and adds an optional reason property to tell you why the file was rejected. Its value will be either `'type'` for the wrong acceptance type, `size` if it exceeds the maximum file size or `no_multiple` if multiple is set to false and more than one file is provided.
+The `RejectedFile` extends the native File and adds an optional reason property to tell you why the file was rejected. it's value will be either `'type'` for the wrong acceptance type, `size` if it exceeds the maximum file size or `no_multiple` if multiple is set to false and more than one file is provided.
 
 If you'd like to show the native file selector programmatically then do it as follows:
 
@@ -116,7 +151,12 @@ This component shows a basic file preview when added inside the dropzone contain
 
 This component has the following Input properties:
 
-* `[file]`: The dropped file to preview.
+* `[file]`: the "file" type is DropZoneFileModel which contains :
+   * `isMock`: if you need preload to file into drop-zone set this to true .
+   * `file`: The dropped file to preview , if you need to preload file into drop-zone creat a mock file and pass it .
+   * `fileSrc`: which is a string and if you need to preload file into drop-zone set it with the url that you have  .
+   * `fileId`: it's useful when you want to keep track of the files, whether it's peloaded or user selected  .
+
 * `[removable]`: Allow the user to remove files. Required to allow keyboard interaction and show the remove badge on hover.
 
 It has the following Output event:

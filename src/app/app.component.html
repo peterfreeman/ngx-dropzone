@@ -5,7 +5,7 @@ Default
 	(change)="onFilesAdded($event)">
 	<ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
 	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
-		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+		<ngx-dropzone-label class="dropzone-label">{{ f.file.name }} ({{ f.file.type }})</ngx-dropzone-label>
 	</ngx-dropzone-preview>
 </ngx-dropzone>
 
@@ -14,14 +14,14 @@ Default
 <ngx-dropzone (change)="onFilesAdded($event)" [disabled]="true" [expandable]="true">
 	<ngx-dropzone-label>Drop it like it's hot!</ngx-dropzone-label>
 	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
-		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+		<ngx-dropzone-label class="dropzone-label">{{ f.file.name  }} ({{ f.file.type }})</ngx-dropzone-label>
 	</ngx-dropzone-preview>
 </ngx-dropzone>
 
 <ngx-dropzone (change)="onFilesAdded($event)" [multiple]="false" [disableClick]="true">
 	<ngx-dropzone-label>Drop it like it's hott!</ngx-dropzone-label>
 	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
-		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+		<ngx-dropzone-label class="dropzone-label">{{ f.file.name  }} ({{ f.file.type }})</ngx-dropzone-label>
 	</ngx-dropzone-preview>
 </ngx-dropzone>
 
@@ -31,10 +31,9 @@ Default
 			<h2>My custom dropzone I</h2>
 		</div>
 	</ngx-dropzone-label>
-	<p>P-Element</p>
 	<ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true"
 		(removed)="onRemove(f)">
-		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+		<ngx-dropzone-label class="dropzone-label">{{ f.file.name  }} ({{ f.file.type }})</ngx-dropzone-label>
 	</ngx-dropzone-image-preview>
 </div>
 
@@ -46,7 +45,7 @@ Default
 	</ngx-dropzone-label>
 	<ngx-dropzone-video-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true"
 		(removed)="onRemove(f)">
-		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+		<ngx-dropzone-label class="dropzone-label">{{ f.file.name  }} ({{ f.file.type }})</ngx-dropzone-label>
 	</ngx-dropzone-video-preview>
 </div>
 
@@ -57,6 +56,6 @@ Default
 		</div>
 	</ngx-dropzone-label>
 	<ngx-dropzone-preview *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
-		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+		<ngx-dropzone-label class="dropzone-label">{{ f.file.name  }} ({{ f.file.type }})</ngx-dropzone-label>
 	</ngx-dropzone-preview>
 </div>
