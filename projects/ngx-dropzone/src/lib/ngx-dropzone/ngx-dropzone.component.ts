@@ -1,12 +1,12 @@
 import { Component, OnInit, EventEmitter, Output, Input, ViewChild, ContentChildren, QueryList, HostBinding, HostListener, Self, ElementRef } from '@angular/core';
-import { NgxDropzoneService, FileSelectResult } from '../ngx-dropzone.service';
+import {NgxDropzoneService, FileSelectResult, RejectedFile} from '../ngx-dropzone.service';
 import { coerceBooleanProperty, coerceNumberProperty } from '../helpers';
 import { NgxDropzonePreviewComponent } from '../ngx-dropzone-preview/ngx-dropzone-preview.component';
 
 export interface NgxDropzoneChangeEvent {
   source: NgxDropzoneComponent;
   addedFiles: File[];
-  rejectedFiles: File[];
+  rejectedFiles: RejectedFile[];
 }
 
 @Component({
@@ -109,7 +109,7 @@ export class NgxDropzoneComponent {
   _onClick() {
     if (!this.disableClick) {
       this.showFileSelector();
-    } 
+    }
   }
 
   @HostListener('dragover', ['$event'])
@@ -137,7 +137,7 @@ export class NgxDropzoneComponent {
     this._isHovered = false;
     this.handleFileDrop(event.dataTransfer.files);
   }
-  
+
   showFileSelector() {
     if (!this.disabled) {
       (this._fileInput.nativeElement as HTMLInputElement).click();
