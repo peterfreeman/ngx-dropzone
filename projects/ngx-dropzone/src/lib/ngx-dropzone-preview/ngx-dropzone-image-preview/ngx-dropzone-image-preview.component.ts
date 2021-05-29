@@ -30,7 +30,7 @@ export class NgxDropzoneImagePreviewComponent extends NgxDropzonePreviewComponen
   @Input()
   set file(value: File) {
     this._file = value;
-    this.renderImage();
+    this.checkFileType();
   }
   get file(): File { return this._file; }
 
@@ -39,12 +39,23 @@ export class NgxDropzoneImagePreviewComponent extends NgxDropzonePreviewComponen
   imageSrc: any = this.sanitizer.bypassSecurityTrustUrl(this.defaultImgLoading);
 
   ngOnInit() {
-    this.renderImage();
+    this.checkFileType();
   }
 
+  private checkFileType() {
+    const supportedTypes = [
+      "image/png",
+      "image/jpeg",
+      "image/gif",
+      "image/tiff",
+      "image/bmp",
+      "image/svg+xml"
+    ]
+    if (supportedTypes.findIndex(x => x === this.file.type) > -1 ) { this.renderImage(); }
+  }
   private renderImage() {
     this.readFile()
-      .then(img => setTimeout(() => this.imageSrc = img))
+      .then(img => setTimeout(() => {this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(img as any);}))
       .catch(err => console.error(err));
   }
 }
