@@ -1,6 +1,7 @@
 # ngx-dropzone
 
-A lightweight and highly customizable Angular dropzone component for file uploads.
+A lightweight and highly customizable Angular dropzone component for file uploads. Please be aware that as in contrast
+to the vanilla dropzone you need to handle the actual file upload to your server yourself.
 
 [![NPM](https://img.shields.io/npm/v/ngx-dropzone.svg)](https://www.npmjs.com/package/ngx-dropzone)
 [![Build Status](https://travis-ci.com/peterfreeman/ngx-dropzone.svg?branch=master)](https://travis-ci.com/peterfreeman/ngx-dropzone)
