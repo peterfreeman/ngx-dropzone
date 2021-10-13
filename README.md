@@ -91,6 +91,7 @@ This component has the following Input properties:
 * `[expandable]`: Allow the dropzone container to expand vertically as the number of previewed files increases. Defaults to `false` which means that it will allow for horizontal scrolling.
 * `[disableClick]`: Prevent the file selector from opening when clicking the dropzone.
 * `[id], [aria-label], [aria-labelledby]`, `[aria-describedby]`: Forward the accessibility properties to the file input element.
+* `[processDirectoryDrop]`: Enable extracting files from dropped directories. Defaults to `false`.
 
 It has the following Output event:
 
