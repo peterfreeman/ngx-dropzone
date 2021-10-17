@@ -1,5 +1,5 @@
-import { Component, OnInit, EventEmitter, Output, Input, ViewChild, ContentChildren, QueryList, HostBinding, HostListener, Self, ElementRef } from '@angular/core';
-import {NgxDropzoneService, FileSelectResult, RejectedFile} from '../ngx-dropzone.service';
+import { Component, OnInit, EventEmitter, Output, Input, ViewChild, ContentChildren, QueryList, HostBinding, HostListener, Self, ElementRef, NgZone, OnDestroy, Renderer2 } from '@angular/core';
+import {NgxDropzoneService, RejectedFile} from '../ngx-dropzone.service';
 import { coerceBooleanProperty, coerceNumberProperty } from '../helpers';
 import { NgxDropzonePreviewComponent } from '../ngx-dropzone-preview/ngx-dropzone-preview.component';
 
@@ -15,9 +15,12 @@ export interface NgxDropzoneChangeEvent {
   styleUrls: ['./ngx-dropzone.component.scss'],
   providers: [NgxDropzoneService]
 })
-export class NgxDropzoneComponent {
+export class NgxDropzoneComponent implements OnInit, OnDestroy {
 
   constructor(
+    private ngZone: NgZone,
+    private renderer: Renderer2,
+    private host: ElementRef<HTMLElement>,
     @Self() private service: NgxDropzoneService
   ) { }
 
@@ -104,12 +107,24 @@ export class NgxDropzoneComponent {
   @HostBinding('class.ngx-dz-hovered')
   _isHovered = false;
 
-  /** Show the native OS file explorer to select files. */
-  @HostListener('click')
-  _onClick() {
-    if (!this.disableClick) {
-      this.showFileSelector();
-    }
+  private _clickListener: VoidFunction;
+
+  ngOnInit(): void {
+    this.ngZone.runOutsideAngular(() => {
+      // Caretaker note: previously we used the `HostListener`. Calling `click()` on the `fileInput`
+      // doesn't require Angular to run `ApplicationRef.tick()`. Note that the `HostListener` wraps the actual
+      // listener under the hood into the internal Angular function which runs `markDirty()` before running
+      // the actual listener (the decorated class method).
+      this._clickListener = this.renderer.listen(this.host.nativeElement, 'click', () => {
+        if (!this.disableClick) {
+          this.showFileSelector();
+        }
+      });
+    });
+  }
+
+  ngOnDestroy(): void {
+    this._clickListener();
   }
 
   @HostListener('dragover', ['$event'])
