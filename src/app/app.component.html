@@ -11,6 +11,13 @@ Default
 
 <button (click)="drop.showFileSelector()">Open</button>
 
+<ngx-dropzone (change)="onFilesAdded($event)" [processDirectoryDrop]="true">
+	<ngx-dropzone-label>Drop your directories in here, to see the magic happen!</ngx-dropzone-label>
+	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+	</ngx-dropzone-preview>
+</ngx-dropzone>
+
 <ngx-dropzone (change)="onFilesAdded($event)" [disabled]="true" [expandable]="true">
 	<ngx-dropzone-label>Drop it like it's hot!</ngx-dropzone-label>
 	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
