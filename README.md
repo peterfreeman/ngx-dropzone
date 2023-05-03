@@ -1,4 +1,11 @@
-# ngx-dropzone
+> **Warning**
+>
+> This repository is **DEPRECATED** and will no longer receive any updates!
+>
+> Unfortunately, I don't have the time to maintain this repo anymore. If you would like to take over, just open up an issue.
+> For the still active users, there are a bunch of forks available, feel free to use any of those for your projects.
+
+# ngx-dropzone (🚫 deprecated!)
 
 A lightweight and highly customizable Angular dropzone component for file uploads.
 
