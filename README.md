@@ -2,8 +2,10 @@
 >
 > This repository is **DEPRECATED** and will no longer receive any updates!
 >
-> Unfortunately, I don't have the time to maintain this repo anymore. If you would like to take over, just open up an issue.
-> For the still active users, there are a bunch of forks available, feel free to use any of those for your projects.
+> Unfortunately, I don't have the time to maintain this repo anymore. Take a look at the official successor repo
+> [hackingharold/ngx-dropzone](https://github.com/hackingharold/ngx-dropzone) for further maintenance.
+> For the still active users, there are a bunch of forks available, feel free to use any of those for your projects
+> if you don't want to switch to the new implementation.
 
 # ngx-dropzone (🚫 deprecated!)
 
